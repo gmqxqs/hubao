@@ -33,8 +33,8 @@ import java.util.Map;
 public class AppConfig {
 
     //域名
-    //public static final String HOST = "http://livenewtest.yunbaozb.com";
-    public static final String HOST = "https://livenew.yunbaozb.com";
+    public static final String HOST = "http://livenewtest.yunbaozb.com";
+ //   public static final String HOST = "http://www.aoye.tv/api/public/";
     //外部sd卡
     public static final String DCMI_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
     //内部存储 /data/data/<application package>/files目录

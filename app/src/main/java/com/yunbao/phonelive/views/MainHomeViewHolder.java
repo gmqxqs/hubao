@@ -64,6 +64,7 @@ public class MainHomeViewHolder extends AbsMainParentViewHolder implements OnIte
         mViewHolders[0] = new MainHomeFollowViewHolder(mContext, mViewPager);
         mViewHolders[1] = new MainHomeLiveViewHolder(mContext, mViewPager);
         mViewHolders[2] = new MainHomeVideoViewHolder(mContext, mViewPager);
+        mViewHolders[3] = new MainHomeVideoViewHolder(mContext, mViewPager);
         MainAppBarExpandListener expandListener = new MainAppBarExpandListener() {
             @Override
             public void onExpand(boolean expand) {
@@ -87,7 +88,9 @@ public class MainHomeViewHolder extends AbsMainParentViewHolder implements OnIte
         mIndicator.setTitles(new String[]{
                 WordUtil.getString(R.string.follow),
                 WordUtil.getString(R.string.live),
-                WordUtil.getString(R.string.video)
+                WordUtil.getString(R.string.video),
+                WordUtil.getString(R.string.main_me)
+
         });
         mIndicator.setViewPager(mViewPager);
         //点击分类item的监听
