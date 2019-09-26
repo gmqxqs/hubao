@@ -28,6 +28,7 @@ public abstract class AbsMainChildTopViewHolder extends AbsMainChildViewHolder {
         mTopContainer = (ViewGroup) findViewById(R.id.top_container);
     }
 
+
     public void addTopView(View view) {
         if (view != null && mTopContainer != null) {
             ViewParent parent = view.getParent();
@@ -41,6 +42,7 @@ public abstract class AbsMainChildTopViewHolder extends AbsMainChildViewHolder {
             }
         }
     }
+
 
     public void removeTopView() {
         if (mTopContainer != null && mTopContainer.getChildCount() > 0) {

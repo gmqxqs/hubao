@@ -113,15 +113,12 @@ public class ItemSlideHelper implements RecyclerView.OnItemTouchListener, Gestur
                         //拦截事件,防止targetView执行onClick事件
                         needIntercept = true;
                     }
-
                     //折叠菜单
                     smoothHorizontalExpandOrCollapse(DEFAULT_DURATION / 2);
                 }
-
                 mTargetView = null;
                 break;
         }
-
         return needIntercept;
     }
 

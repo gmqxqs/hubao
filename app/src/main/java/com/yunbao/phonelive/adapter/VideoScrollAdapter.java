@@ -1,5 +1,6 @@
 package com.yunbao.phonelive.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -17,10 +18,12 @@ import android.view.ViewGroup;
 
 import com.yunbao.phonelive.Constants;
 import com.yunbao.phonelive.R;
+import com.yunbao.phonelive.activity.HorizontalVideoPlayActivity;
 import com.yunbao.phonelive.activity.VideoPlayActivity;
 import com.yunbao.phonelive.bean.VideoBean;
 import com.yunbao.phonelive.custom.ItemSlideHelper;
 import com.yunbao.phonelive.utils.ClickUtil;
+import com.yunbao.phonelive.utils.CommUtil;
 import com.yunbao.phonelive.utils.IconUtil;
 import com.yunbao.phonelive.utils.L;
 import com.yunbao.phonelive.utils.ToastUtil;
@@ -193,6 +196,17 @@ public class VideoScrollAdapter extends RecyclerView.Adapter<VideoScrollAdapter.
 
     @Override
     public void onLeftScroll(RecyclerView.ViewHolder vh) {
+       Activity activity = CommUtil.scanForActivity(mContext);
+        if(activity instanceof  HorizontalVideoPlayActivity){
+            return;
+        }
+      /*  if(!((HorizontalVideoPlayActivity) mContext).isPaused()){
+            return;
+        }
+        if(((HorizontalVideoPlayActivity) mContext).isPaused()){
+            return;
+        }*/
+
         if (((VideoPlayActivity) mContext).isPaused()) {
             return;
         }

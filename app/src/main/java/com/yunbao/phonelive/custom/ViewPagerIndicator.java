@@ -59,6 +59,12 @@ public class ViewPagerIndicator extends LinearLayout implements ViewPager.OnPage
     private int mIndicatorBottomMargin;
     //当前的第几个选项高亮
     private int mCurrentItem;
+    public int getmCurrentItem(){
+        return  mCurrentItem;
+    }
+    public void setmCurrentItem(int current){
+        this.mCurrentItem = current;
+    }
     //每次滚动偏移量
     private int mScrollX;
     //总偏移量

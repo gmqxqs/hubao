@@ -43,6 +43,7 @@ public abstract class AbsMainParentViewHolder extends AbsMainViewHolder {
         mTopView = LayoutInflater.from(mContext).inflate(R.layout.view_main_home_top, null, false);
         mRedPoint = (TextView) mTopView.findViewById(R.id.red_point);
         mIndicator = (ViewPagerIndicator) mTopView.findViewById(R.id.indicator);
+        
         mIndicator.setListener(new ViewPagerIndicator.OnPageChangeListener() {
             @Override
             public void onTabClick(int position) {
