@@ -58,7 +58,6 @@ public class MainHomeHorizontalVideoAdapter extends RefreshAdapter<VideoBean> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
        // return   new Vh(mInflater.inflate(viewType == HORIZONTAL ? R.layout.item_main_horizontal_video : R.layout.item_main_home_video, parent, false));
-
         return   new Vh(mInflater.inflate(type == "HORIZONTAL" ? R.layout.item_main_horizontal_video : R.layout.item_main_home_video, parent, false));
 
     }
