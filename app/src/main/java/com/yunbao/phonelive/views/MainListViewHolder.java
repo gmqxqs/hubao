@@ -49,7 +49,7 @@ public class MainListViewHolder extends AbsMainViewHolder implements View.OnClic
     @Override
     public void init() {
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
-        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setOffscreenPageLimit(2);
         mViewHolders = new AbsMainListViewHolder[2];
         mViewHolders[0] = new MainListProfitViewHolder(mContext, mViewPager);
         mViewHolders[1] = new MainListContributeViewHolder(mContext, mViewPager);

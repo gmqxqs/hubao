@@ -94,6 +94,7 @@ public class MainHomeViewHolder extends AbsMainParentViewHolder implements OnIte
         mIndicator.setViewPager(mViewPager);
         //点击分类item的监听
     //    ((MainHomeLiveViewHolder) mViewHolders[1]).setLiveClassItemClickListener(this);
+
         mShadow = findViewById(R.id.shadow);
         mBtnDismiss = findViewById(R.id.btn_dismiss);
         mBtnDismiss.setOnClickListener(new View.OnClickListener() {
@@ -180,7 +181,7 @@ public class MainHomeViewHolder extends AbsMainParentViewHolder implements OnIte
                 showClassListDialog();
             } else {//否则，先让AppBarLayout展开，然后显示分类弹窗
                 mNeedShowClassListDialog = true;
-                mViewHolders[1].expand();
+                mViewHolders[0].expand();
             }
         } else {
             LiveClassActivity.forward(mContext, bean.getId(), bean.getName());

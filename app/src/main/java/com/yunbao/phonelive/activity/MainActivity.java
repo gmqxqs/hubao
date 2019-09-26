@@ -79,7 +79,7 @@ public class MainActivity extends AbsActivity {
         mRootView = (ViewGroup) findViewById(R.id.rootView);
     //    mTabButtonGroup = (TabButtonGroup) findViewById(R.id.tab_group);
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
-        mViewPager.setOffscreenPageLimit(1);
+        mViewPager.setOffscreenPageLimit(0);
         mViewHolders = new AbsMainViewHolder[1];
         mViewHolders[0] = new MainHomeViewHolder(mContext, mViewPager);
       /*  mViewHolders[1] = new MainNearViewHolder(mContext, mViewPager);

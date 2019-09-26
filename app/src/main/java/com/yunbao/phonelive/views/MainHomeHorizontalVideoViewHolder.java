@@ -63,41 +63,6 @@ public class MainHomeHorizontalVideoViewHolder extends AbsMainChildTopViewHolder
         mRefreshView = (RefreshView) findViewById(R.id.refreshView);
         mRefreshView.setNoDataLayoutId(R.layout.view_no_data_live_video);
         //加载布局管理器
-     //   GridLayoutManager layoutManage = new GridLayoutManager(mContext, 1, GridLayoutManager.VERTICAL, false);
-   /*     mRefreshView.setLayoutManager(new GridLayoutManager(mContext, 1, GridLayoutManager.VERTICAL, false){
-            @Override
-            public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
-                System.out.println("开始设置");
-                super.onMeasure(recycler, state, widthSpec, heightSpec);
-                int measuredWidth = mRefreshView.getMeasuredWidth();
-                int measuredHeight = mRefreshView.getMeasuredHeight();
-                int myMeasureHeight = 0;
-                int count = state.getItemCount();
-                for (int i = 0; i < count; i++) {
-                    View view = recycler.getViewForPosition(i);
-                    if (view != null) {
-                        if (myMeasureHeight < measuredHeight && i % 3 == 0) {
-                            RecyclerView.LayoutParams p = (RecyclerView.LayoutParams) view.getLayoutParams();
-                            int childWidthSpec = ViewGroup.getChildMeasureSpec(widthSpec,
-                                    getPaddingLeft() + getPaddingRight(), p.width);
-                            int childHeightSpec = ViewGroup.getChildMeasureSpec(heightSpec,
-                                    getPaddingTop() + getPaddingBottom(), p.height) / 3;
-                            view.measure(childWidthSpec, childHeightSpec);
-                            myMeasureHeight += view.getMeasuredHeight() + p.bottomMargin + p.topMargin;
-                        }
-                        recycler.recycleView(view);
-                    }
-                }
-//                    Log.i("Height", "" + Math.min(measuredHeight, myMeasureHeight));
-             //   setMeasuredDimension(measuredWidth, Math.min(measuredHeight, myMeasureHeight));
-
-        }});*/
-
-      //  mRefreshView.setLayoutManager(new MyLayoutManager(mContext));
-      /*  LinearLayoutManager exceptionLayoutManager = new LinearLayoutManager(mContext);
-        exceptionLayoutManager.setAutoMeasureEnabled(false);
-        mRefreshView.setLayoutManager(exceptionLayoutManager);
-*/
         mRefreshView.setLayoutManager(new GridLayoutManager(mContext, 1, GridLayoutManager.VERTICAL, false));
         ItemDecoration decoration = new ItemDecoration(mContext, 0x00000000, 0, 10);
         decoration.setOnlySetItemOffsetsButNoDraw(true);

@@ -1250,6 +1250,18 @@ public class HttpUtil {
                 .execute(callback);
     }
 
+    /*
+        获取首页横屏视频列表
+    */
+    public static void getHorizontalVideoList(int p, HttpCallback callback) {
+        HttpClient.getInstance().get("Video.GetVideoList", HttpConsts.GET_HOME_VIDEO_LIST)
+                .params("uid", AppConfig.getInstance().getUid())
+                .params("token", AppConfig.getInstance().getToken())
+                .params("p", p)
+                .execute(callback);
+    }
+
+
     /**
      * 视频点赞
      */
