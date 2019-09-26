@@ -16,7 +16,6 @@ import com.yunbao.video.R;
 
 public class RangeSliderViewContainer extends LinearLayout {
     private final String TAG = "RangeSliderView";
-
     private Context mContext;
     private View mRootView;
     private View mStartView;        // 左边拖动控件
@@ -27,7 +26,6 @@ public class RangeSliderViewContainer extends LinearLayout {
     private long mEndTimeMs;          // 结束时间us
     private long mMaxDuration;      // 允许设置的最大时长
     private int mDistance;          // 中间裁剪区域距离
-
     private ViewTouchProcess mStartViewTouchProcess;
     private ViewTouchProcess mEndViewTouchProcess;
 

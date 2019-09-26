@@ -27,6 +27,7 @@ public class HttpClient {
 
     private HttpClient() {
         mUrl = AppConfig.HOST + "/api/public/?service=";
+      //  mUrl = AppConfig.HOST + "/api/public/";
     }
 
     public static HttpClient getInstance() {
@@ -67,6 +68,7 @@ public class HttpClient {
 
     public GetRequest<JsonBean> get(String serviceName, String tag) {
         return OkGo.<JsonBean>get(mUrl + serviceName)
+      //  return OkGo.<JsonBean>get(mUrl)
                 .headers("Connection","keep-alive")
                 .tag(tag)
                 .params(HttpConsts.LANGUAGE, mLanguage);

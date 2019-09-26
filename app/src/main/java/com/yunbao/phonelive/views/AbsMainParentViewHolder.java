@@ -39,7 +39,7 @@ public abstract class AbsMainParentViewHolder extends AbsMainViewHolder {
     public void init() {
         mTopContainer = (ViewGroup) findViewById(R.id.top_container);
         mViewPager = (MyViewPager) findViewById(R.id.viewPager);
-        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setOffscreenPageLimit(4);
         mTopView = LayoutInflater.from(mContext).inflate(R.layout.view_main_home_top, null, false);
         mRedPoint = (TextView) mTopView.findViewById(R.id.red_point);
         mIndicator = (ViewPagerIndicator) mTopView.findViewById(R.id.indicator);

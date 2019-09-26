@@ -61,9 +61,10 @@ public class MainHomeViewHolder extends AbsMainParentViewHolder implements OnIte
     public void init() {
         super.init();
         mViewHolders = new AbsMainChildTopViewHolder[3];
-        mViewHolders[0] = new MainHomeFollowViewHolder(mContext, mViewPager);
-        mViewHolders[1] = new MainHomeLiveViewHolder(mContext, mViewPager);
-        mViewHolders[2] = new MainHomeVideoViewHolder(mContext, mViewPager);
+        mViewHolders[0] = new MainHomeHorizontalVideoViewHolder(mContext,mViewPager);
+        //mViewHolders[1] = new MainHomeLiveViewHolder(mContext, mViewPager);
+        mViewHolders[1] = new MainHomeVideoViewHolder(mContext, mViewPager);
+        mViewHolders[2] = new MainMeViewTopHolder(mContext, mViewPager);
         MainAppBarExpandListener expandListener = new MainAppBarExpandListener() {
             @Override
             public void onExpand(boolean expand) {
@@ -85,13 +86,14 @@ public class MainHomeViewHolder extends AbsMainParentViewHolder implements OnIte
         }
         mViewPager.setAdapter(new ViewPagerAdapter(list));
         mIndicator.setTitles(new String[]{
-                WordUtil.getString(R.string.follow),
-                WordUtil.getString(R.string.live),
-                WordUtil.getString(R.string.video)
+                WordUtil.getString(R.string.recommended),
+               // WordUtil.getString(R.string.live)
+                WordUtil.getString(R.string.video),
+                WordUtil.getString(R.string.main_me)
         });
         mIndicator.setViewPager(mViewPager);
         //点击分类item的监听
-        ((MainHomeLiveViewHolder) mViewHolders[1]).setLiveClassItemClickListener(this);
+    //    ((MainHomeLiveViewHolder) mViewHolders[1]).setLiveClassItemClickListener(this);
         mShadow = findViewById(R.id.shadow);
         mBtnDismiss = findViewById(R.id.btn_dismiss);
         mBtnDismiss.setOnClickListener(new View.OnClickListener() {
@@ -204,7 +206,6 @@ public class MainHomeViewHolder extends AbsMainParentViewHolder implements OnIte
             public void onPause() {
                 mPaused = true;
             }
-
             @Override
             public void onDestroy() {
                 HttpUtil.cancel(HttpConsts.GET_HOT);

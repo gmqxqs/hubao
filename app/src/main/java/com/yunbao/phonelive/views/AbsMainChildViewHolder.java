@@ -2,9 +2,11 @@ package com.yunbao.phonelive.views;
 
 import android.content.Context;
 import android.support.design.widget.AppBarLayout;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.yunbao.phonelive.R;
+import com.yunbao.phonelive.custom.RefreshHorizontalView;
 import com.yunbao.phonelive.custom.RefreshView;
 import com.yunbao.phonelive.interfaces.AppBarStateListener;
 import com.yunbao.phonelive.interfaces.DataLoader;
@@ -29,6 +31,7 @@ public abstract class AbsMainChildViewHolder extends AbsMainViewHolder implement
     protected boolean mAppBarExpand = true;//AppBarLayout是否展开
     protected boolean mNeedDispatch;//是否需要执行AppBarLayoutListener的回调
     protected RefreshView mRefreshView;
+    protected RefreshHorizontalView mRefreshHorizontalView;
 
     public AbsMainChildViewHolder(Context context, ViewGroup parentView) {
         super(context, parentView);
@@ -108,6 +111,9 @@ public abstract class AbsMainChildViewHolder extends AbsMainViewHolder implement
     public void setCanRefresh(boolean canRefresh) {
         if (mRefreshView != null) {
             mRefreshView.setRefreshEnable(canRefresh);
+        }
+        if(mRefreshHorizontalView != null){
+            mRefreshHorizontalView.setRefreshEnable(canRefresh);
         }
     }
 

@@ -22,6 +22,7 @@ import com.yunbao.phonelive.bean.VideoBean;
 import com.yunbao.phonelive.custom.ItemSlideHelper;
 import com.yunbao.phonelive.utils.ClickUtil;
 import com.yunbao.phonelive.utils.IconUtil;
+import com.yunbao.phonelive.utils.L;
 import com.yunbao.phonelive.utils.ToastUtil;
 import com.yunbao.phonelive.views.VideoPlayWrapViewHolder;
 
@@ -271,8 +272,9 @@ public class VideoScrollAdapter extends RecyclerView.Adapter<VideoScrollAdapter.
         });
     }
 
-    private void findCurVideo() {
+    public void findCurVideo() {
         int position = mLayoutManager.findFirstCompletelyVisibleItemPosition();
+        L.e("position:" + position);
         if (position >= 0 && mCurPosition != position) {
             if (mHandler != null) {
                 mHandler.removeCallbacksAndMessages(null);

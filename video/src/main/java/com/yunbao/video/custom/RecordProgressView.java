@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 public class RecordProgressView extends View {
     private final String TAG = "RecordProgressView";
-
     private float mScale;
     private Paint mRecordPaint;
     private Paint mPendingPaint;
@@ -25,7 +24,6 @@ public class RecordProgressView extends View {
     private int mRecordColor;
     private int mPendingColor;
     private int mSpaceColor;
-
     private boolean isCursorShow = false;
     private boolean isInProgress = false;
     private Handler mHandler;

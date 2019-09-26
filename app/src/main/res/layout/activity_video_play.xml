@@ -5,11 +5,12 @@
     android:layout_height="match_parent"
     android:id="@+id/root"
     >
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/container"
-        />
+        android:id="@+id/container" />
+
     <ImageView
         android:id="@+id/btn_back"
         android:layout_width="40dp"
@@ -18,6 +19,6 @@
         android:onClick="backClick"
         android:padding="9dp"
         android:src="@mipmap/icon_video_music_back"
-        android:tint="@color/white"
-        />
+        android:tint="@color/white" />
+
 </FrameLayout>

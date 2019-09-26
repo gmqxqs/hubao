@@ -1,31 +1,33 @@
 package com.yunbao.phonelive.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yunbao.phonelive.R;
 import com.yunbao.phonelive.bean.UserBean;
 import com.yunbao.phonelive.bean.VideoBean;
 import com.yunbao.phonelive.glide.ImgLoader;
-import com.yunbao.phonelive.views.MainHomeVideoViewHolder;
+import com.yunbao.phonelive.views.MainHomeHorizontalVideoViewHolder;
 
 /**
  * Created by cxf on 2018/9/26.
  */
 
-public class MainHomeVideoAdapter extends RefreshAdapter<VideoBean> {
+public class MainHomeHorizontalVideoAdapter extends RefreshAdapter<VideoBean> {
     private static final int FIRST_LINE = 1;
     private static final int NORMAL = 0;
-    private String type = "ver";
+    private static final int HORIZONTAL = 2;
+    private String type = "HORIZONTAL";
     private View.OnClickListener mOnClickListener;
-    public MainHomeVideoAdapter(Context context) {
+    public MainHomeHorizontalVideoAdapter(Context context) {
         super(context);
         mOnClickListener = new View.OnClickListener() {
             @Override
@@ -49,12 +51,15 @@ public class MainHomeVideoAdapter extends RefreshAdapter<VideoBean> {
             return FIRST_LINE;
         }
         return NORMAL;
+        //return HORIZONTAL;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new Vh(mInflater.inflate(type == "ver"  ? R.layout.item_main_home_video_2 : R.layout.item_main_home_video, parent, false));
+       // return   new Vh(mInflater.inflate(viewType == HORIZONTAL ? R.layout.item_main_horizontal_video : R.layout.item_main_home_video, parent, false));
+
+        return   new Vh(mInflater.inflate(type == "HORIZONTAL" ? R.layout.item_main_horizontal_video : R.layout.item_main_home_video, parent, false));
 
     }
 
@@ -79,13 +84,11 @@ public class MainHomeVideoAdapter extends RefreshAdapter<VideoBean> {
     }
 
     class Vh extends RecyclerView.ViewHolder {
-
         ImageView mCover;
         ImageView mAvatar;
         TextView mName;
         TextView mTitle;
         TextView mNum;
-
         public Vh(View itemView) {
             super(itemView);
             mCover = (ImageView) itemView.findViewById(R.id.cover);
@@ -94,10 +97,10 @@ public class MainHomeVideoAdapter extends RefreshAdapter<VideoBean> {
             mTitle = (TextView) itemView.findViewById(R.id.title);
             mNum = (TextView) itemView.findViewById(R.id.num);
             itemView.setOnClickListener(mOnClickListener);
-
         }
 
         void setData(VideoBean bean, int position) {
+           // itemView.setVisibility(View.GONE);
             itemView.setTag(position);
             ImgLoader.display(bean.getThumb(), mCover);
             mTitle.setText(bean.getTitle());
@@ -109,5 +112,4 @@ public class MainHomeVideoAdapter extends RefreshAdapter<VideoBean> {
             }
         }
     }
-
 }

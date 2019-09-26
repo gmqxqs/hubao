@@ -18,14 +18,10 @@ public class SliderViewContainer extends LinearLayout {
     private Context mContext;
     private View mRootView;
     private View mSliderView;
-
     private long mStartTimeMs;
-
     private VideoProgressController mVideoProgressController;
     private ViewTouchProcess mViewTouchProcess;
-
     private OnStartTimeChangedListener mOnStartTimeChangedListener;
-
     public interface OnStartTimeChangedListener {
         void onStartTimeMsChanged(long timeMs);
     }

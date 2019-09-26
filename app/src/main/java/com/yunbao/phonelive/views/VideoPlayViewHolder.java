@@ -4,7 +4,9 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Debug;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -16,11 +18,16 @@ import com.tencent.rtmp.TXVodPlayConfig;
 import com.tencent.rtmp.TXVodPlayer;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 import com.yunbao.phonelive.R;
+import com.yunbao.phonelive.adapter.VideoScrollAdapter;
 import com.yunbao.phonelive.bean.VideoBean;
 import com.yunbao.phonelive.custom.VideoLoadingBar;
 import com.yunbao.phonelive.http.HttpConsts;
 import com.yunbao.phonelive.http.HttpUtil;
 import com.yunbao.phonelive.utils.L;
+import com.yunbao.phonelive.utils.VideoStorge;
+
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Created by cxf on 2018/11/30.
@@ -40,10 +47,26 @@ public class VideoPlayViewHolder extends AbsViewHolder implements ITXVodPlayList
     private boolean mStartPlay;
     private boolean mEndPlay;
     private VideoBean mVideoBean;
+    private VideoScrollAdapter mVideoScrollAdapter;
+    private String mVideoKey;
+    private List<VideoBean> list;
+    private int mPosition;
+    private int mPage;
 
     public VideoPlayViewHolder(Context context, ViewGroup parentView) {
         super(context, parentView);
 
+    }
+
+    public VideoPlayViewHolder(Context context, ViewGroup parentView, int position, String videoKey, int page) {
+        super(context, parentView, position, videoKey, page);
+    }
+
+    @Override
+    protected void processArguments(Object... args) {
+        mPosition = (int) args[0];
+        mVideoKey = (String) args[1];
+        mPage = (int) args[2];
     }
 
     @Override
@@ -53,6 +76,13 @@ public class VideoPlayViewHolder extends AbsViewHolder implements ITXVodPlayList
 
     @Override
     public void init() {
+        /*List<VideoBean> list = VideoStorge.getInstance().get(mVideoKey);
+        if (list == null || list.size() == 0) {
+            return;
+        }*/
+
+        list = VideoStorge.getInstance().get(mVideoKey);
+        mVideoScrollAdapter = new VideoScrollAdapter(mContext, list, mPosition);
         mTXCloudVideoView = (TXCloudVideoView) findViewById(R.id.video_view);
         mTXCloudVideoView.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);
         mPlayer = new TXVodPlayer(mContext);
@@ -177,7 +207,7 @@ public class VideoPlayViewHolder extends AbsViewHolder implements ITXVodPlayList
     /**
      * 循环播放
      */
-    private void replay() {
+    public void replay() {
         if (mPlayer != null) {
             mPlayer.seek(0);
             mPlayer.resume();

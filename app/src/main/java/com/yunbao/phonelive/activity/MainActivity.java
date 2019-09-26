@@ -77,14 +77,14 @@ public class MainActivity extends AbsActivity {
     protected void main() {
         boolean showInvite = getIntent().getBooleanExtra(Constants.SHOW_INVITE, false);
         mRootView = (ViewGroup) findViewById(R.id.rootView);
-        mTabButtonGroup = (TabButtonGroup) findViewById(R.id.tab_group);
+    //    mTabButtonGroup = (TabButtonGroup) findViewById(R.id.tab_group);
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
-        mViewPager.setOffscreenPageLimit(4);
-        mViewHolders = new AbsMainViewHolder[4];
+        mViewPager.setOffscreenPageLimit(1);
+        mViewHolders = new AbsMainViewHolder[1];
         mViewHolders[0] = new MainHomeViewHolder(mContext, mViewPager);
-        mViewHolders[1] = new MainNearViewHolder(mContext, mViewPager);
+      /*  mViewHolders[1] = new MainNearViewHolder(mContext, mViewPager);
         mViewHolders[2] = new MainListViewHolder(mContext, mViewPager);
-        mViewHolders[3] = new MainMeViewHolder(mContext, mViewPager);
+        mViewHolders[3] = new MainMeViewHolder(mContext, mViewPager);*/
         List<View> list = new ArrayList<>();
         MainAppBarLayoutListener appBarLayoutListener = new MainAppBarLayoutListener() {
             @Override
@@ -125,7 +125,7 @@ public class MainActivity extends AbsActivity {
 
             }
         });
-        mTabButtonGroup.setViewPager(mViewPager);
+    //    mTabButtonGroup.setViewPager(mViewPager);
         mDp70 = DpUtil.dp2px(70);
         mBottom = findViewById(R.id.bottom);
         mProcessResultUtil = new ProcessResultUtil(this);
@@ -144,9 +144,9 @@ public class MainActivity extends AbsActivity {
             return;
         }
         switch (v.getId()) {
-            case R.id.btn_start:
+           /* case R.id.btn_start:
                 showStartDialog();
-                break;
+                break;*/
             case R.id.btn_search:
                 SearchActivity.forward(mContext);
                 break;
@@ -372,7 +372,7 @@ public class MainActivity extends AbsActivity {
         String unReadCount = e.getUnReadCount();
         if (!TextUtils.isEmpty(unReadCount)) {
             ((MainHomeViewHolder) mViewHolders[0]).setUnReadCount(unReadCount);
-            ((MainNearViewHolder) mViewHolders[1]).setUnReadCount(unReadCount);
+         //   ((MainNearViewHolder) mViewHolders[1]).setUnReadCount(unReadCount);
         }
     }
 

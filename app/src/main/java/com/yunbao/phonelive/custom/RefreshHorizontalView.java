@@ -23,7 +23,7 @@ import java.util.List;
  * Created by cxf on 2018/6/7.
  */
 
-public class RefreshView extends FrameLayout implements View.OnClickListener {
+public class RefreshHorizontalView extends FrameLayout implements View.OnClickListener {
 
     private Context mContext;
     private boolean mEnableRefresh;
@@ -41,15 +41,15 @@ public class RefreshView extends FrameLayout implements View.OnClickListener {
     private boolean mScrollEnable = true;
 
 
-    public RefreshView(Context context) {
+    public RefreshHorizontalView(Context context) {
         this(context, null);
     }
 
-    public RefreshView(Context context, AttributeSet attrs) {
+    public RefreshHorizontalView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public RefreshView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RefreshHorizontalView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.RefreshView);
@@ -111,7 +111,7 @@ public class RefreshView extends FrameLayout implements View.OnClickListener {
             if (mLoadFailure != null && mLoadFailure.getVisibility() == View.VISIBLE) {
                 mLoadFailure.setVisibility(View.INVISIBLE);
             }
-            RefreshAdapter adapter = mDataHelper.getAdapter();
+            RefreshHorizontalAdapter adapter = mDataHelper.getAdapter();
             if (adapter == null) {
                 return;
             }
@@ -168,7 +168,7 @@ public class RefreshView extends FrameLayout implements View.OnClickListener {
             }
             if (mLoadFailure != null) {
                 if (mLoadFailure.getVisibility() != View.VISIBLE) {
-                    RefreshAdapter adapter = mDataHelper.getAdapter();
+                    RefreshHorizontalAdapter adapter = mDataHelper.getAdapter();
                     if (adapter != null && adapter.getItemCount() > 0) {
                         ToastUtil.show(R.string.load_failure);
                     } else {
@@ -217,7 +217,7 @@ public class RefreshView extends FrameLayout implements View.OnClickListener {
                     return;
                 }
                 mDataCount = list.size();
-                RefreshAdapter adapter = mDataHelper.getAdapter();
+                RefreshHorizontalAdapter adapter = mDataHelper.getAdapter();
                 if (list.size() > 0) {
                     if (adapter != null) {
                         adapter.insertList(list);
@@ -258,7 +258,7 @@ public class RefreshView extends FrameLayout implements View.OnClickListener {
 
     public void refreshLocalData(List list) {
         if (mDataHelper != null) {
-            RefreshAdapter adapter = mDataHelper.getAdapter();
+            RefreshHorizontalAdapter adapter = mDataHelper.getAdapter();
             if (adapter != null) {
                 if (list != null && list.size() > 0) {
                     if (mShowNoData && mNoData != null && mNoData.getVisibility() == View.VISIBLE) {
@@ -361,7 +361,7 @@ public class RefreshView extends FrameLayout implements View.OnClickListener {
 
 
     public interface DataHelper<T> {
-        RefreshAdapter<T> getAdapter();
+        RefreshHorizontalAdapter<T> getAdapter();
 
         void loadData(int p, HttpCallback callback);
 

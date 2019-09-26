@@ -1,6 +1,7 @@
 package com.yunbao.phonelive.views;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alibaba.fastjson.JSON;
+import com.tencent.rtmp.ITXVodPlayListener;
+import com.tencent.rtmp.TXLiveConstants;
+import com.tencent.rtmp.TXVodPlayer;
 import com.yunbao.phonelive.R;
 import com.yunbao.phonelive.activity.VideoPlayActivity;
 import com.yunbao.phonelive.adapter.VideoScrollAdapter;
@@ -23,6 +27,7 @@ import com.yunbao.phonelive.http.HttpConsts;
 import com.yunbao.phonelive.http.HttpUtil;
 import com.yunbao.phonelive.interfaces.LifeCycleAdapter;
 import com.yunbao.phonelive.interfaces.VideoScrollDataHelper;
+import com.yunbao.phonelive.utils.L;
 import com.yunbao.phonelive.utils.ToastUtil;
 import com.yunbao.phonelive.utils.VideoStorge;
 
@@ -62,6 +67,7 @@ public class VideoScrollViewHolder extends AbsViewHolder implements
         super(context, parentView, position, videoKey, page);
     }
 
+
     @Override
     protected void processArguments(Object... args) {
         mPosition = (int) args[0];
@@ -80,7 +86,7 @@ public class VideoScrollViewHolder extends AbsViewHolder implements
         if (list == null || list.size() == 0) {
             return;
         }
-        mVideoPlayViewHolder = new VideoPlayViewHolder(mContext, null);
+        mVideoPlayViewHolder = new VideoPlayViewHolder(mContext, null,mPosition,mVideoKey,mPage);
         mVideoPlayViewHolder.setActionListener(this);
         mPlayView = mVideoPlayViewHolder.getContentView();
         mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshLayout);

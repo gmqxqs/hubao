@@ -19,10 +19,7 @@ import com.yunbao.phonelive.utils.IconUtil;
  */
 
 public class MainHomeHotAdapter extends RefreshAdapter<LiveBean> {
-
-
     private View.OnClickListener mOnClickListener;
-
     public MainHomeHotAdapter(Context context) {
         super(context);
         mOnClickListener = new View.OnClickListener() {
@@ -55,14 +52,12 @@ public class MainHomeHotAdapter extends RefreshAdapter<LiveBean> {
     }
 
     class Vh extends RecyclerView.ViewHolder {
-
         ImageView mCover;
         ImageView mAvatar;
         TextView mName;
         TextView mTitle;
         TextView mNum;
         ImageView mType;
-
         public Vh(View itemView) {
             super(itemView);
             mCover = (ImageView) itemView.findViewById(R.id.cover);

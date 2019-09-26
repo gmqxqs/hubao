@@ -1,13 +1,19 @@
 package com.yunbao.phonelive.views;
 
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.alibaba.fastjson.JSON;
 import com.yunbao.phonelive.Constants;
+import com.yunbao.phonelive.LayoutManager.WrappableGridLayoutManager;
 import com.yunbao.phonelive.R;
+import com.yunbao.phonelive.activity.HorizontalVideoPlayActivity;
 import com.yunbao.phonelive.activity.VideoPlayActivity;
 import com.yunbao.phonelive.adapter.MainHomeHorizontalVideoAdapter;
 import com.yunbao.phonelive.adapter.MainHomeVideoAdapter;
@@ -30,39 +36,78 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Created by cxf on 2018/9/22.
  * 首页视频
  */
 
-public class MainHomeVideoViewHolder extends AbsMainChildTopViewHolder implements OnItemClickListener<VideoBean> {
+public class MainHomeHorizontalVideoViewHolder extends AbsMainChildTopViewHolder implements OnItemClickListener<VideoBean> {
 
-    private MainHomeVideoAdapter mAdapter;
+    private MainHomeHorizontalVideoAdapter mAdapter;
     private VideoScrollDataHelper mVideoScrollDataHelper;
-    public MainHomeVideoViewHolder(Context context, ViewGroup parentView) {
+
+    public MainHomeHorizontalVideoViewHolder(Context context, ViewGroup parentView) {
         super(context, parentView);
     }
+
     @Override
     protected int getLayoutId() {
-        return R.layout.view_main_home_video;
+        return R.layout.view_main_home_horizontalvideo;
     }
+
     @Override
     public void init() {
         super.init();
         mRefreshView = (RefreshView) findViewById(R.id.refreshView);
         mRefreshView.setNoDataLayoutId(R.layout.view_no_data_live_video);
-        mRefreshView.setLayoutManager(new GridLayoutManager(mContext, 2, GridLayoutManager.VERTICAL, false));
-    //    mRefreshView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
-        ItemDecoration decoration = new ItemDecoration(mContext, 0x00000000, 5, 5);
+        //加载布局管理器
+     //   GridLayoutManager layoutManage = new GridLayoutManager(mContext, 1, GridLayoutManager.VERTICAL, false);
+   /*     mRefreshView.setLayoutManager(new GridLayoutManager(mContext, 1, GridLayoutManager.VERTICAL, false){
+            @Override
+            public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
+                System.out.println("开始设置");
+                super.onMeasure(recycler, state, widthSpec, heightSpec);
+                int measuredWidth = mRefreshView.getMeasuredWidth();
+                int measuredHeight = mRefreshView.getMeasuredHeight();
+                int myMeasureHeight = 0;
+                int count = state.getItemCount();
+                for (int i = 0; i < count; i++) {
+                    View view = recycler.getViewForPosition(i);
+                    if (view != null) {
+                        if (myMeasureHeight < measuredHeight && i % 3 == 0) {
+                            RecyclerView.LayoutParams p = (RecyclerView.LayoutParams) view.getLayoutParams();
+                            int childWidthSpec = ViewGroup.getChildMeasureSpec(widthSpec,
+                                    getPaddingLeft() + getPaddingRight(), p.width);
+                            int childHeightSpec = ViewGroup.getChildMeasureSpec(heightSpec,
+                                    getPaddingTop() + getPaddingBottom(), p.height) / 3;
+                            view.measure(childWidthSpec, childHeightSpec);
+                            myMeasureHeight += view.getMeasuredHeight() + p.bottomMargin + p.topMargin;
+                        }
+                        recycler.recycleView(view);
+                    }
+                }
+//                    Log.i("Height", "" + Math.min(measuredHeight, myMeasureHeight));
+             //   setMeasuredDimension(measuredWidth, Math.min(measuredHeight, myMeasureHeight));
+
+        }});*/
+
+      //  mRefreshView.setLayoutManager(new MyLayoutManager(mContext));
+      /*  LinearLayoutManager exceptionLayoutManager = new LinearLayoutManager(mContext);
+        exceptionLayoutManager.setAutoMeasureEnabled(false);
+        mRefreshView.setLayoutManager(exceptionLayoutManager);
+*/
+        mRefreshView.setLayoutManager(new GridLayoutManager(mContext, 1, GridLayoutManager.VERTICAL, false));
+        ItemDecoration decoration = new ItemDecoration(mContext, 0x00000000, 0, 10);
         decoration.setOnlySetItemOffsetsButNoDraw(true);
         mRefreshView.setItemDecoration(decoration);
         mRefreshView.setDataHelper(new RefreshView.DataHelper<VideoBean>() {
             @Override
             public RefreshAdapter<VideoBean> getAdapter() {
                 if (mAdapter == null) {
-                    mAdapter = new MainHomeVideoAdapter(mContext);
-                    mAdapter.setOnItemClickListener(MainHomeVideoViewHolder.this);
+                    mAdapter = new MainHomeHorizontalVideoAdapter(mContext);
+                    mAdapter.setOnItemClickListener(MainHomeHorizontalVideoViewHolder.this);
                 }
                 return mAdapter;
             }
@@ -99,12 +144,12 @@ public class MainHomeVideoViewHolder extends AbsMainChildTopViewHolder implement
         mLifeCycleListener = new LifeCycleAdapter() {
             @Override
             public void onCreate() {
-                EventBus.getDefault().register(MainHomeVideoViewHolder.this);
+                EventBus.getDefault().register(MainHomeHorizontalVideoViewHolder.this);
             }
 
             @Override
             public void onDestroy() {
-                EventBus.getDefault().unregister(MainHomeVideoViewHolder.this);
+                EventBus.getDefault().unregister(MainHomeHorizontalVideoViewHolder.this);
             }
         };
         mVideoScrollDataHelper = new VideoScrollDataHelper() {
@@ -151,6 +196,8 @@ public class MainHomeVideoViewHolder extends AbsMainChildTopViewHolder implement
             page = mRefreshView.getPage();
         }
         VideoStorge.getInstance().putDataHelper(Constants.VIDEO_HOME, mVideoScrollDataHelper);
-        VideoPlayActivity.forward(mContext, position, Constants.VIDEO_HOME, page);
+        HorizontalVideoPlayActivity.forward(mContext, position, Constants.VIDEO_HOME, page);
     }
+
+
 }

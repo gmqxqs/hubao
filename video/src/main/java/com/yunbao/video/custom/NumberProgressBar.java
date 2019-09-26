@@ -17,12 +17,10 @@ import com.yunbao.video.R;
 public class NumberProgressBar extends View {
 
     private long mMaxProgress = 100;
-
     /**
      * Current progress, can not exceed the max progress.
      */
     private long mCurrentProgress = 0;
-
     /**
      * The progress area bar color.
      */
