@@ -64,7 +64,7 @@ public class MainHomeViewHolder extends AbsMainParentViewHolder implements OnIte
         mViewHolders[0] = new MainHomeFollowViewHolder(mContext, mViewPager);
         mViewHolders[1] = new MainHomeLiveViewHolder(mContext, mViewPager);
         mViewHolders[2] = new MainHomeVideoViewHolder(mContext, mViewPager);
-        mViewHolders[3] = new MainHomeVideoViewHolder(mContext, mViewPager);
+
         MainAppBarExpandListener expandListener = new MainAppBarExpandListener() {
             @Override
             public void onExpand(boolean expand) {
