@@ -206,7 +206,7 @@ public class ImagePlayWrapViewHolder extends AbsViewHolder implements View.OnCli
         // UserBean u = mVideoBean.getUserBean();
         if (payload == null) {
             if (mCover != null) {
-               setCoverImage();
+               //setCoverImage();
             }
             /*if (mTitle != null) {
                 //mTitle.setText(bean.getTitle());

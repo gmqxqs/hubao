@@ -1,6 +1,7 @@
 package com.yunbao.phonelive.views;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import com.yunbao.phonelive.interfaces.LifeCycleListener;
@@ -33,6 +34,7 @@ public abstract class AbsMainViewHolder extends AbsViewHolder {
     }
 
     protected boolean isFirstLoadData() {
+        Log.e("mFirstLoadData",mFirstLoadData+"kkkk");
         if (mFirstLoadData) {
             mFirstLoadData = false;
             return true;

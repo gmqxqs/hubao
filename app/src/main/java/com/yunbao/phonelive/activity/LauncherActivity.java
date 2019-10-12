@@ -61,7 +61,7 @@ public class LauncherActivity extends AppCompatActivity {
         mContext = this;
 
         ImageView imageView = (ImageView) findViewById(R.id.img);
-        ImgLoader.display(R.mipmap.screen, imageView);
+        ImgLoader.display(R.mipmap.start, imageView);
         mHandler = new Handler();
         mHandler.postDelayed(new Runnable() {
             @Override

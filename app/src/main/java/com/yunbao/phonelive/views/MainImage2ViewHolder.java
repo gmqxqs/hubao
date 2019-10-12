@@ -102,6 +102,7 @@ public class MainImage2ViewHolder extends AbsMainChildTopViewHolder implements O
 
             @Override
             public void loadData(int p, HttpCallback callback) {
+                Log.e("获取套图列表","111kkk");
                 HttpUtil.getHomeImageList(p, callback);
             }
 
@@ -112,6 +113,7 @@ public class MainImage2ViewHolder extends AbsMainChildTopViewHolder implements O
 
             @Override
             public void onRefresh(List<VideoBean> list) {
+                Log.e("imageListVideo",list.get(0).toString());
                 VideoStorge.getInstance().put(Constants.VIDEO_IMAGE, list);
             }
 
@@ -122,6 +124,7 @@ public class MainImage2ViewHolder extends AbsMainChildTopViewHolder implements O
 
             @Override
             public void onLoadDataCompleted(int dataCount) {
+                Log.e("数据加载完成","kkkkk");
                 if (dataCount < 10) {
                     mRefreshView.setLoadMoreEnable(false);
                 } else {
@@ -152,9 +155,10 @@ public class MainImage2ViewHolder extends AbsMainChildTopViewHolder implements O
 
     @Override
     public void loadData() {
-        if (!isFirstLoadData()) {
+        /*if (!isFirstLoadData()) {
             return;
-        }
+        }*/
+        Log.e("ImageRefreshView:",mRefreshView+"kkk");
         if (mRefreshView != null) {
             mRefreshView.initData();
         }
