@@ -1,6 +1,9 @@
 package com.yunbao.phonelive.utils;
 
+import android.media.Image;
+
 import com.yunbao.phonelive.bean.VideoBean;
+import com.yunbao.phonelive.interfaces.ImageScrollDataHelper;
 import com.yunbao.phonelive.interfaces.VideoScrollDataHelper;
 
 import java.util.HashMap;
@@ -17,9 +20,12 @@ public class VideoStorge {
     private Map<String, List<VideoBean>> mMap;
     private Map<String, VideoScrollDataHelper> mHelperMap;
 
+
     private VideoStorge() {
         mMap = new HashMap<>();
+        mMap = new HashMap<>();
         mHelperMap = new HashMap<>();
+
     }
 
     public static VideoStorge getInstance() {
@@ -40,6 +46,8 @@ public class VideoStorge {
     }
 
 
+
+
     public List<VideoBean> get(String key) {
         if (mMap != null) {
             return mMap.get(key);
@@ -47,10 +55,13 @@ public class VideoStorge {
         return null;
     }
 
+
+
     public void remove(String key) {
         if (mMap != null) {
             mMap.remove(key);
         }
+
     }
 
 
@@ -58,16 +69,21 @@ public class VideoStorge {
         if (mMap != null) {
             mMap.clear();
         }
+
         if (mHelperMap != null) {
             mHelperMap.clear();
         }
+
     }
 
     public void putDataHelper(String key, VideoScrollDataHelper helper) {
         if (mHelperMap != null) {
             mHelperMap.put(key, helper);
         }
+
     }
+
+
 
 
     public VideoScrollDataHelper getDataHelper(String key) {

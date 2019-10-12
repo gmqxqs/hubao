@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yunbao.phonelive.R;
+import com.yunbao.phonelive.activity.HorizontalVideoPlayActivity;
 import com.yunbao.phonelive.activity.VideoPlayActivity;
 import com.yunbao.phonelive.adapter.RefreshAdapter;
 import com.yunbao.phonelive.adapter.VideoCommentAdapter;
@@ -29,6 +31,7 @@ import com.yunbao.phonelive.http.HttpCallback;
 import com.yunbao.phonelive.http.HttpConsts;
 import com.yunbao.phonelive.http.HttpUtil;
 import com.yunbao.phonelive.interfaces.OnItemClickListener;
+import com.yunbao.phonelive.utils.CommUtil;
 import com.yunbao.phonelive.utils.L;
 import com.yunbao.phonelive.utils.WordUtil;
 
@@ -82,7 +85,6 @@ public class VideoCommentViewHolder extends AbsViewHolder implements View.OnClic
             public void onAnimationStart(Animator animation) {
                 mAnimating = true;
             }
-
             @Override
             public void onAnimationEnd(Animator animation) {
                 mAnimating = false;
@@ -99,7 +101,6 @@ public class VideoCommentViewHolder extends AbsViewHolder implements View.OnClic
         };
         mShowAnimator.addListener(animatorListener);
         mHideAnimator.addListener(animatorListener);
-
         findViewById(R.id.root).setOnClickListener(this);
         findViewById(R.id.btn_close).setOnClickListener(this);
         findViewById(R.id.input).setOnClickListener(this);
@@ -225,10 +226,22 @@ public class VideoCommentViewHolder extends AbsViewHolder implements View.OnClic
                 hideBottom();
                 break;
             case R.id.input:
-                ((VideoPlayActivity) mContext).openCommentInputWindow(false, mVideoBean, null);
+                Activity activity = CommUtil.scanForActivity(mContext);
+                if(activity instanceof HorizontalVideoPlayActivity){
+                    ((HorizontalVideoPlayActivity) activity).openCommentInputWindow(false,mVideoBean,null);
+                } else if(activity instanceof  VideoPlayActivity){
+                    ((VideoPlayActivity) activity).openCommentInputWindow(false,mVideoBean,null);
+                }
+             //   ((VideoPlayActivity) mContext).openCommentInputWindow(false, mVideoBean, null);
                 break;
             case R.id.btn_face:
-                ((VideoPlayActivity) mContext).openCommentInputWindow(true, mVideoBean, null);
+                Activity activity2 = CommUtil.scanForActivity(mContext);
+                if(activity2 instanceof HorizontalVideoPlayActivity){
+                    ((HorizontalVideoPlayActivity) activity2).openCommentInputWindow(true,mVideoBean,null);
+                } else if(activity2 instanceof  VideoPlayActivity){
+                    ((VideoPlayActivity) activity2).openCommentInputWindow(true,mVideoBean,null);
+                }
+             //   ((VideoPlayActivity) mContext).openCommentInputWindow(true, mVideoBean, null);
                 break;
         }
     }

@@ -14,7 +14,6 @@ import java.util.List;
 public class ViewPagerAdapter extends PagerAdapter {
 
     private List<View> mViewList;
-
     public ViewPagerAdapter(List<View> list) {
         mViewList = list;
     }

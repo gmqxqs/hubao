@@ -15,7 +15,7 @@
         android:layout_marginTop="28dp"
         app:bold="true"
         app:change_size="false"
-        app:currentItem="1"
+        app:currentItem="0"
         app:indicatorColor="@color/global"
         app:indicatorHeight="3dp"
         app:indicatorWidth="22dp"
@@ -26,6 +26,19 @@
         />
 
     <ImageView
+        android:id="@+id/btn_msg"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="2dp"
+        android:layout_marginRight="5dp"
+        android:onClick="mainClick"
+        android:padding="9dp"
+        android:src="@mipmap/menuba_more_icon"
+        />
+
+  <!--  <ImageView
         android:id="@+id/btn_msg"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -68,5 +81,5 @@
         android:textColor="@color/white"
         android:textSize="10sp"
         android:visibility="invisible"
-        />
+        />-->
 </RelativeLayout>

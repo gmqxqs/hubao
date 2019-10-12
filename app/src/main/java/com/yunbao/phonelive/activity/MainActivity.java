@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yunbao.phonelive.AppConfig;
+import com.yunbao.phonelive.AppContext;
 import com.yunbao.phonelive.Constants;
 import com.yunbao.phonelive.R;
 import com.yunbao.phonelive.adapter.ViewPagerAdapter;
@@ -56,6 +57,7 @@ import java.util.List;
 
 public class MainActivity extends AbsActivity {
 
+
     private ViewGroup mRootView;
     private TabButtonGroup mTabButtonGroup;
     private ViewPager mViewPager;
@@ -79,7 +81,7 @@ public class MainActivity extends AbsActivity {
         mRootView = (ViewGroup) findViewById(R.id.rootView);
     //    mTabButtonGroup = (TabButtonGroup) findViewById(R.id.tab_group);
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
-        mViewPager.setOffscreenPageLimit(0);
+        mViewPager.setOffscreenPageLimit(1);
         mViewHolders = new AbsMainViewHolder[1];
         mViewHolders[0] = new MainHomeViewHolder(mContext, mViewPager);
       /*  mViewHolders[1] = new MainNearViewHolder(mContext, mViewPager);
@@ -89,11 +91,11 @@ public class MainActivity extends AbsActivity {
         MainAppBarLayoutListener appBarLayoutListener = new MainAppBarLayoutListener() {
             @Override
             public void onOffsetChanged(float rate) {
-                float curY = mBottom.getTranslationY();
+              //  float curY = mBottom.getTranslationY();
                 float targetY = rate * mDp70;
-                if (curY != targetY) {
+               /* if (curY != targetY) {
                     mBottom.setTranslationY(targetY);
-                }
+                }*/
             }
         };
         for (AbsMainViewHolder vh : mViewHolders) {
@@ -127,7 +129,7 @@ public class MainActivity extends AbsActivity {
         });
     //    mTabButtonGroup.setViewPager(mViewPager);
         mDp70 = DpUtil.dp2px(70);
-        mBottom = findViewById(R.id.bottom);
+      //  mBottom = findViewById(R.id.bottom);
         mProcessResultUtil = new ProcessResultUtil(this);
         EventBus.getDefault().register(this);
         checkVersion();
@@ -144,14 +146,14 @@ public class MainActivity extends AbsActivity {
             return;
         }
         switch (v.getId()) {
-           /* case R.id.btn_start:
+            /*case R.id.btn_start:
                 showStartDialog();
                 break;*/
-            case R.id.btn_search:
+            /*case R.id.btn_search:
                 SearchActivity.forward(mContext);
-                break;
+                break;*/
             case R.id.btn_msg:
-                ChatActivity.forward(mContext);
+                SettingActivity2.forward(mContext);
                 break;
         }
     }
@@ -304,7 +306,7 @@ public class MainActivity extends AbsActivity {
                         break;
                 }
             } else {
-                mvh.setCurrentPage(1);
+                mvh.setCurrentPage(0);
             }
             getLocation();
         }
@@ -349,6 +351,12 @@ public class MainActivity extends AbsActivity {
 
     public static void forward(Context context) {
         forward(context, false);
+    }
+
+    public static void forward() {
+        Intent intent = new Intent(AppContext.sInstance, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        AppContext.sInstance.startActivity(intent);
     }
 
     public static void forward(Context context, boolean showInvite) {

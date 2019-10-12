@@ -113,7 +113,7 @@ public class LiveChatAdapter extends RecyclerView.Adapter {
         void setData(LiveChatBean bean) {
             itemView.setTag(bean);
             if (bean.getType() == LiveChatBean.SYSTEM) {
-                mTextView.setTextColor(0xffffdd00);
+                mTextView.setTextColor(0xFFFF17A5);
                 mTextView.setText(bean.getContent());
             } else {
                 if (bean.getType() == LiveChatBean.ENTER_ROOM || bean.getType() == LiveChatBean.LIGHT) {

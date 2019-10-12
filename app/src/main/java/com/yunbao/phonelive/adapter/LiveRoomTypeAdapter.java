@@ -96,7 +96,7 @@ public class LiveRoomTypeAdapter extends RecyclerView.Adapter<LiveRoomTypeAdapte
             itemView.setTag(position);
             mName.setText(bean.getName());
             if (bean.isChecked()) {
-                mName.setTextColor(0xffffdd00);
+                mName.setTextColor(0xFFFF17A5);
                 mIcon.setImageResource(bean.getCheckedIcon());
             } else {
                 mName.setTextColor(0xffffffff);

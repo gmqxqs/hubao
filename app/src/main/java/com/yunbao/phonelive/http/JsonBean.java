@@ -32,4 +32,13 @@ public class JsonBean {
     public void setData(Data data) {
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "JsonBean{" +
+                "ret=" + ret +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

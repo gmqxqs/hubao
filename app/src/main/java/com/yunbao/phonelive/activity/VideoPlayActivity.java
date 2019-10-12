@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yunbao.phonelive.AppConfig;
@@ -50,17 +49,13 @@ import com.yunbao.phonelive.utils.VideoStorge;
 import com.yunbao.phonelive.utils.WordUtil;
 import com.yunbao.phonelive.views.VideoCommentViewHolder;
 import com.yunbao.phonelive.views.VideoScrollViewHolder;
-
 import org.greenrobot.eventbus.EventBus;
-
 import java.io.File;
-
 /**
  * Created by cxf on 2018/11/26.
  */
 
 public class VideoPlayActivity extends AbsActivity implements View.OnClickListener, OnFaceClickListener {
-
 
     public static void forward(Context context, int position, String videoKey, int page) {
         Intent intent = new Intent(context, VideoPlayActivity.class);
@@ -84,8 +79,6 @@ public class VideoPlayActivity extends AbsActivity implements View.OnClickListen
     private ConfigBean mConfigBean;
     private VideoBean mShareVideoBean;
     private boolean mPaused;
-
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_video_play;
@@ -195,7 +188,6 @@ public class VideoPlayActivity extends AbsActivity implements View.OnClickListen
     }
 
     private MobCallback mMobCallback = new MobCallback() {
-
         @Override
         public void onSuccess(Object data) {
             if (mShareVideoBean == null) {

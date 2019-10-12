@@ -49,7 +49,7 @@ public class TextRender {
         sBoldSpan = new StyleSpan(Typeface.BOLD);
         sNormalSpan = new StyleSpan(Typeface.NORMAL);
         sWhiteColorSpan = new ForegroundColorSpan(0xffffffff);
-        sGlobalColorSpan = new ForegroundColorSpan(0xffffdd00);
+        sGlobalColorSpan = new ForegroundColorSpan(0xFFFF17A5);
         sColorSpan1 = new ForegroundColorSpan(0xffc8c8c8);
         sFontSizeSpan = new AbsoluteSizeSpan(17, true);
         sFontSizeSpan2 = new AbsoluteSizeSpan(13, true);
@@ -153,7 +153,7 @@ public class TextRender {
                     SpannableStringBuilder builder = createPrefix(drawable, bean);
                     int color = 0;
                     if (bean.isAnchor()) {
-                        color = 0xffffdd00;
+                        color = 0xFFFF17A5;
                     } else {
                         color = Color.parseColor(levelBean.getColor());
                     }

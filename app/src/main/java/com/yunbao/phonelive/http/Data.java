@@ -1,5 +1,7 @@
 package com.yunbao.phonelive.http;
 
+import java.util.Arrays;
+
 /**
  * Created by cxf on 2017/8/5.
  */
@@ -31,5 +33,14 @@ public class Data {
 
     public void setInfo(String[] info) {
         this.info = info;
+    }
+
+    @Override
+    public String toString() {
+        return "Data{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", info=" + Arrays.toString(info) +
+                '}';
     }
 }

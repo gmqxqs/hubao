@@ -247,7 +247,7 @@ public class LiveUserDialogFragment extends AbsDialogFragment implements View.On
         }
         ImpressBean lastBean = new ImpressBean();
         lastBean.setName("+ " + WordUtil.getString(R.string.impress_add));
-        lastBean.setColor("#ffdd00");
+        lastBean.setColor("#FFFF17A5");
         list.add(lastBean);
         LayoutInflater inflater = LayoutInflater.from(mContext);
         for (int i = 0, size = list.size(); i < size; i++) {

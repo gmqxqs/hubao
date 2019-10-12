@@ -92,6 +92,9 @@ public class HttpConsts {
     public static final String GET_RED_PACK_RESULT = "getRedPackResult";
     public static final String GET_SYSTEM_MESSAGE_LIST = "getSystemMessageList";
     public static final String GET_HOME_VIDEO_LIST = "getHomeVideoList";
+    public static final String GET_HOME_HORIZONTAL_LIST = "getHomeHorizontalVideoList";
+    public static final String GET_HOME_IMAGE_LIST = "getHomeVideoList";
+    public static final String GET_HOME_IMAGE_DETAILS= "getHomeImageDetails";
     public static final String SET_VIDEO_LIKE = "setVideoLike";
     public static final String GET_VIDEO_COMMENT_LIST = "getVideoCommentList";
     public static final String SET_COMMENT_LIKE = "setCommentLike";
@@ -114,6 +117,7 @@ public class HttpConsts {
     public static final String VIDEO_WATCH_END = "videoWatchEnd";
     public static final String SET_LINK_MIC_ENABLE = "setLinkMicEnable";
     public static final String CHECK_LINK_MIC_ENABLE = "checkLinkMicEnable";
+    public static final String TOURIST_LOGIN = "touristLogin";
     public static final String GET_LIVE_REPORT_LIST = "getLiveReportList";
 
 

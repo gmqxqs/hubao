@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.alibaba.fastjson.JSON;
 import com.yunbao.phonelive.Constants;
-import com.yunbao.phonelive.LayoutManager.WrappableGridLayoutManager;
+
 import com.yunbao.phonelive.R;
 import com.yunbao.phonelive.activity.HorizontalVideoPlayActivity;
 import com.yunbao.phonelive.activity.VideoPlayActivity;
@@ -47,7 +47,6 @@ public class MainHomeHorizontalVideoViewHolder extends AbsMainChildTopViewHolder
 
     private MainHomeHorizontalVideoAdapter mAdapter;
     private VideoScrollDataHelper mVideoScrollDataHelper;
-
     public MainHomeHorizontalVideoViewHolder(Context context, ViewGroup parentView) {
         super(context, parentView);
     }
@@ -79,7 +78,7 @@ public class MainHomeHorizontalVideoViewHolder extends AbsMainChildTopViewHolder
 
             @Override
             public void loadData(int p, HttpCallback callback) {
-                HttpUtil.getHomeVideoList(p, callback);
+                HttpUtil.getHorizontalVideoList(p, callback);
             }
 
             @Override
@@ -89,7 +88,7 @@ public class MainHomeHorizontalVideoViewHolder extends AbsMainChildTopViewHolder
 
             @Override
             public void onRefresh(List<VideoBean> list) {
-                VideoStorge.getInstance().put(Constants.VIDEO_HOME, list);
+                VideoStorge.getInstance().put(Constants.VIDEO_HORIZONTAL, list);
             }
 
             @Override
@@ -121,7 +120,7 @@ public class MainHomeHorizontalVideoViewHolder extends AbsMainChildTopViewHolder
 
             @Override
             public void loadData(int p, HttpCallback callback) {
-                HttpUtil.getHomeVideoList(p, callback);
+                HttpUtil.getHorizontalVideoList(p, callback);
             }
         };
     }
@@ -139,7 +138,7 @@ public class MainHomeHorizontalVideoViewHolder extends AbsMainChildTopViewHolder
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onVideoScrollPageEvent(VideoScrollPageEvent e) {
-        if (Constants.VIDEO_HOME.equals(e.getKey()) && mRefreshView != null) {
+        if (Constants.VIDEO_HORIZONTAL.equals(e.getKey()) && mRefreshView != null) {
             mRefreshView.setPage(e.getPage());
         }
     }
@@ -160,8 +159,8 @@ public class MainHomeHorizontalVideoViewHolder extends AbsMainChildTopViewHolder
         if (mRefreshView != null) {
             page = mRefreshView.getPage();
         }
-        VideoStorge.getInstance().putDataHelper(Constants.VIDEO_HOME, mVideoScrollDataHelper);
-        HorizontalVideoPlayActivity.forward(mContext, position, Constants.VIDEO_HOME, page);
+        VideoStorge.getInstance().putDataHelper(Constants.VIDEO_HORIZONTAL, mVideoScrollDataHelper);
+        HorizontalVideoPlayActivity.forward(mContext, position, Constants.VIDEO_HORIZONTAL, page);
     }
 
 

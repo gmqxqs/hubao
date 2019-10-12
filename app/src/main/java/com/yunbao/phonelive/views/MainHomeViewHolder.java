@@ -8,6 +8,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -25,6 +26,7 @@ import com.yunbao.phonelive.interfaces.LifeCycleAdapter;
 import com.yunbao.phonelive.interfaces.LifeCycleListener;
 import com.yunbao.phonelive.interfaces.MainAppBarExpandListener;
 import com.yunbao.phonelive.interfaces.OnItemClickListener;
+import com.yunbao.phonelive.utils.L;
 import com.yunbao.phonelive.utils.WordUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -37,8 +39,7 @@ import java.util.List;
  * MainActivity 首页
  */
 
-public class MainHomeViewHolder extends AbsMainParentViewHolder implements OnItemClickListener<LiveClassBean> {
-
+public class MainHomeViewHolder extends AbsMainParentViewHolder {
     private RecyclerView mClassRecyclerView;
     private ObjectAnimator mShowAnimator;
     private ObjectAnimator mHideAnimator;
@@ -62,9 +63,10 @@ public class MainHomeViewHolder extends AbsMainParentViewHolder implements OnIte
         super.init();
         mViewHolders = new AbsMainChildTopViewHolder[3];
         mViewHolders[0] = new MainHomeHorizontalVideoViewHolder(mContext,mViewPager);
-        //mViewHolders[1] = new MainHomeLiveViewHolder(mContext, mViewPager);
         mViewHolders[1] = new MainHomeVideoViewHolder(mContext, mViewPager);
-        mViewHolders[2] = new MainMeViewTopHolder(mContext, mViewPager);
+        mViewHolders[2] = new MainImage2ViewHolder(mContext, mViewPager);
+        mViewPager.setCurrentItem(0);
+     /*   mViewHolders[3] = new MainMeViewTopHolder(mContext, mViewPager);*/
         MainAppBarExpandListener expandListener = new MainAppBarExpandListener() {
             @Override
             public void onExpand(boolean expand) {
@@ -85,16 +87,19 @@ public class MainHomeViewHolder extends AbsMainParentViewHolder implements OnIte
             list.add(vh.getContentView());
         }
         mViewPager.setAdapter(new ViewPagerAdapter(list));
+
         mIndicator.setTitles(new String[]{
                 WordUtil.getString(R.string.recommended),
-               // WordUtil.getString(R.string.live)
+                // WordUtil.getString(R.string.live)
                 WordUtil.getString(R.string.video),
-                WordUtil.getString(R.string.main_me)
+                "写真",
+               // WordUtil.getString(R.string.main_me)
         });
-        mIndicator.setViewPager(mViewPager);
-        //点击分类item的监听
-    //    ((MainHomeLiveViewHolder) mViewHolders[1]).setLiveClassItemClickListener(this);
 
+        mIndicator.setViewPager(mViewPager);
+   //     mIndicator.setmCurrentItem(0);
+        //点击分类item的监听
+    //   ((MainHomeLiveViewHolder) mViewHolders[0]).setLiveClassItemClickListener(this);
         mShadow = findViewById(R.id.shadow);
         mBtnDismiss = findViewById(R.id.btn_dismiss);
         mBtnDismiss.setOnClickListener(new View.OnClickListener() {
@@ -106,24 +111,7 @@ public class MainHomeViewHolder extends AbsMainParentViewHolder implements OnIte
                 }
             }
         });
-        mClassRecyclerView = (RecyclerView) findViewById(R.id.classRecyclerView);
-        mClassRecyclerView.setHasFixedSize(true);
-        mClassRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 5, GridLayoutManager.VERTICAL, false));
-        ConfigBean configBean = AppConfig.getInstance().getConfig();
-        if (configBean != null) {
-            List<LiveClassBean> liveClassList = configBean.getLiveClass();
-            if (liveClassList != null && liveClassList.size() > 0) {
-                MainHomeLiveClassAdapter adapter = new MainHomeLiveClassAdapter(mContext, liveClassList, true);
-                adapter.setOnItemClickListener(this);
-                mClassRecyclerView.setAdapter(adapter);
-                mClassRecyclerView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        initAnim();
-                    }
-                });
-            }
-        }
+
     }
 
     /**
@@ -171,7 +159,7 @@ public class MainHomeViewHolder extends AbsMainParentViewHolder implements OnIte
         });
     }
 
-    @Override
+   /* @Override
     public void onItemClick(LiveClassBean bean, int position) {
         if (!canClick()) {
             return;
@@ -186,7 +174,7 @@ public class MainHomeViewHolder extends AbsMainParentViewHolder implements OnIte
         } else {
             LiveClassActivity.forward(mContext, bean.getId(), bean.getName());
         }
-    }
+    }*/
 
 
     @Override

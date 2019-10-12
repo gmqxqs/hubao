@@ -22,6 +22,7 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
 
+
     <com.yunbao.phonelive.custom.VideoLoadingBar
         android:id="@+id/video_loading"
         android:layout_width="match_parent"
@@ -33,6 +34,7 @@
         />
 
     <LinearLayout
+        android:id="@+id/inputLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
@@ -65,7 +67,7 @@
             android:layout_marginRight="6dp"
             android:padding="5dp"
             android:src="@mipmap/icon_chat_face"
-            android:tint="@color/gray3"
-            />
+            android:tint="@color/gray3"/>
+
     </LinearLayout>
 </RelativeLayout>

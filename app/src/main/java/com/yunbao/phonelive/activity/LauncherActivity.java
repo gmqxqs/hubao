@@ -8,11 +8,15 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.umeng.analytics.MobclickAgent;
 import com.yunbao.phonelive.AppConfig;
 import com.yunbao.phonelive.AppContext;
 import com.yunbao.phonelive.R;
@@ -24,16 +28,19 @@ import com.yunbao.phonelive.http.HttpConsts;
 import com.yunbao.phonelive.http.HttpUtil;
 import com.yunbao.phonelive.interfaces.CommonCallback;
 import com.yunbao.phonelive.utils.SpUtil;
+import com.yunbao.phonelive.utils.ToastUtil;
 
+import android.provider.Settings;
 /**
  * Created by cxf on 2018/9/17.
  */
-
 public class LauncherActivity extends AppCompatActivity {
-
     private Handler mHandler;
-    protected Context mContext;
-
+    public static Context mContext;
+    private static LauncherActivity instance;
+    public static  LauncherActivity getInstance() {
+        return instance;
+    }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +59,7 @@ public class LauncherActivity extends AppCompatActivity {
         setStatusBar();
         setContentView(R.layout.activity_launcher);
         mContext = this;
+
         ImageView imageView = (ImageView) findViewById(R.id.img);
         ImgLoader.display(R.mipmap.screen, imageView);
         mHandler = new Handler();
@@ -61,6 +69,7 @@ public class LauncherActivity extends AppCompatActivity {
                 getConfig();
             }
         }, 800);
+        instance = this;
     }
 
 
@@ -78,7 +87,25 @@ public class LauncherActivity extends AppCompatActivity {
             }
         });
     }
+    //登录成功！
+    private void onLoginSuccess(int code, String msg, String[] info) {
+        if (code == 0 && info.length > 0) {
+            JSONObject obj = JSON.parseObject(info[0]);
+            String uid = obj.getString("id");
+            String token = obj.getString("token");
+            Log.e("uiddLogin:",uid);
+            Log.e("tokenLogin:",token);
 
+            AppConfig.getInstance().setLoginInfo(uid, token, true);
+            getBaseUserInfo();
+            //友盟统计登录
+            String mLoginType = "phone";
+             MobclickAgent.onProfileSignIn(mLoginType, uid);
+
+        } else {
+            ToastUtil.show(msg);
+        }
+    }
     /**
      * 检查uid和token是否存在
      */
@@ -91,14 +118,26 @@ public class LauncherActivity extends AppCompatActivity {
             HttpUtil.ifToken(uid, token, new HttpCallback() {
                 @Override
                 public void onSuccess(int code, String msg, String[] info) {
+                    Log.e("Successcode:",code+"");
                     if (code == 0) {
+                        Log.e("SuccessUid",uid);
+                        Log.e("tokenUid",token);
                         AppConfig.getInstance().setLoginInfo(uid, token, false);
                         getBaseUserInfo();
                     }
                 }
             });
         } else {
-            LoginActivity.forward();
+           // LoginActivity.forward();
+            String uuid = Settings.Secure.getString(LauncherActivity.this.getContentResolver(),Settings.Secure.ANDROID_ID);
+            Log.e("uuid",uuid);
+            HttpUtil.TouristLogin(uuid, new HttpCallback() {
+                @Override
+                public void onSuccess(int code, String msg, String[] info) {
+                    onLoginSuccess(code, msg, info);
+                }
+            });
+            getBaseUserInfo();
         }
     }
 

@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,9 @@ import com.yunbao.phonelive.utils.IconUtil;
 import com.yunbao.phonelive.utils.L;
 import com.yunbao.phonelive.utils.ToastUtil;
 import com.yunbao.phonelive.views.VideoPlayWrapViewHolder;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -49,7 +53,6 @@ public class VideoScrollAdapter extends RecyclerView.Adapter<VideoScrollAdapter.
     private LinearLayoutManager mLayoutManager;
     private Drawable[] mLikeAnimDrawables;
     private Handler mHandler;
-
     public VideoScrollAdapter(Context context, List<VideoBean> list, int curPosition) {
         mContext = context;
         mList = list;
@@ -62,6 +65,7 @@ public class VideoScrollAdapter extends RecyclerView.Adapter<VideoScrollAdapter.
             mLikeAnimDrawables[i] = ContextCompat.getDrawable(context, likeImageList.get(i));
         }
     }
+
 
     public void setActionListener(ActionListener actionListener) {
         mActionListener = actionListener;
@@ -84,6 +88,8 @@ public class VideoScrollAdapter extends RecyclerView.Adapter<VideoScrollAdapter.
     public void onBindViewHolder(@NonNull Vh vh, int position, @NonNull List<Object> payloads) {
         Object payload = payloads.size() > 0 ? payloads.get(0) : null;
         vh.setData(mList.get(position), position, payload);
+
+        //第一个可以播放
         if (mFirstLoad) {
             mFirstLoad = false;
             VideoPlayWrapViewHolder vpvh = mMap.get(mCurPosition);
@@ -149,7 +155,7 @@ public class VideoScrollAdapter extends RecyclerView.Adapter<VideoScrollAdapter.
                         @Override
                         public void run() {
                             mCurPosition = -1;
-                            findCurVideo();
+                          //  findCurVideo();
                         }
                     }, 500);
                 } else {
@@ -206,10 +212,13 @@ public class VideoScrollAdapter extends RecyclerView.Adapter<VideoScrollAdapter.
         if(((HorizontalVideoPlayActivity) mContext).isPaused()){
             return;
         }*/
-
-        if (((VideoPlayActivity) mContext).isPaused()) {
+        if(activity instanceof VideoPlayActivity){
+            if (((VideoPlayActivity) mContext).isPaused()) {
+                return;
+            }
             return;
         }
+
         if (!ClickUtil.canClick()) {
             return;
         }
@@ -270,17 +279,19 @@ public class VideoScrollAdapter extends RecyclerView.Adapter<VideoScrollAdapter.
         mRecyclerView = recyclerView;
         mRecyclerView.addOnItemTouchListener(new ItemSlideHelper(mContext, this));
         mLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-        mLayoutManager.setInitialPrefetchItemCount(4);
+        mLayoutManager.setInitialPrefetchItemCount(6);
         recyclerView.scrollToPosition(mCurPosition);
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         pagerSnapHelper.attachToRecyclerView(recyclerView);
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                Log.e("上拉","視頻");
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                Log.e("下拉","視頻");
                 findCurVideo();
             }
         });
@@ -288,7 +299,8 @@ public class VideoScrollAdapter extends RecyclerView.Adapter<VideoScrollAdapter.
 
     public void findCurVideo() {
         int position = mLayoutManager.findFirstCompletelyVisibleItemPosition();
-        L.e("position:" + position);
+        L.e("VideoPosition:" + position);
+        L.e("mCurPosition:" + mCurPosition);
         if (position >= 0 && mCurPosition != position) {
             if (mHandler != null) {
                 mHandler.removeCallbacksAndMessages(null);
@@ -374,6 +386,8 @@ public class VideoScrollAdapter extends RecyclerView.Adapter<VideoScrollAdapter.
             }
         }
     }
+
+
 
     /**
      * 评论数发生变化

@@ -1,5 +1,6 @@
 package com.yunbao.phonelive.dialog;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yunbao.phonelive.Constants;
 import com.yunbao.phonelive.R;
+import com.yunbao.phonelive.activity.HorizontalVideoPlayActivity;
 import com.yunbao.phonelive.activity.VideoPlayActivity;
 import com.yunbao.phonelive.bean.UserBean;
 import com.yunbao.phonelive.bean.VideoBean;
@@ -29,6 +31,7 @@ import com.yunbao.phonelive.event.VideoCommentEvent;
 import com.yunbao.phonelive.http.HttpCallback;
 import com.yunbao.phonelive.http.HttpConsts;
 import com.yunbao.phonelive.http.HttpUtil;
+import com.yunbao.phonelive.utils.CommUtil;
 import com.yunbao.phonelive.utils.DpUtil;
 import com.yunbao.phonelive.utils.TextRender;
 import com.yunbao.phonelive.utils.ToastUtil;
@@ -216,7 +219,15 @@ public class VideoInputDialogFragment extends AbsDialogFragment implements View.
     private void showFace() {
         if (mFaceHeight > 0) {
             changeHeight(mFaceHeight);
-            View faceView = ((VideoPlayActivity) mContext).getFaceView();
+
+            View faceView = new View(mContext);
+            Activity activity = CommUtil.scanForActivity(mContext);
+            if(activity instanceof  HorizontalVideoPlayActivity){
+                faceView = ((HorizontalVideoPlayActivity) activity).getFaceView();
+            } else if(activity instanceof  VideoPlayActivity){
+                faceView = ((VideoPlayActivity) activity).getFaceView();
+            }
+          //  View faceView = ((VideoPlayActivity) mContext).getFaceView();
             if (faceView != null) {
                 mChatFaceDialog = new ChatFaceDialog(mRootView, faceView, false, VideoInputDialogFragment.this);
                 mChatFaceDialog.show();
@@ -243,6 +254,7 @@ public class VideoInputDialogFragment extends AbsDialogFragment implements View.
             return;
         }
         WindowManager.LayoutParams params = window.getAttributes();
+      //  params.height = mOriginHeight + deltaHeight;
         params.height = mOriginHeight + deltaHeight;
         window.setAttributes(params);
     }
@@ -287,7 +299,13 @@ public class VideoInputDialogFragment extends AbsDialogFragment implements View.
                     }
                     ToastUtil.show(msg);
                     dismiss();
-                    ((VideoPlayActivity) mContext).hideCommentWindow();
+                    Activity activity = CommUtil.scanForActivity(mContext);
+                    if(activity instanceof HorizontalVideoPlayActivity){
+                        ((HorizontalVideoPlayActivity) activity).hideCommentWindow();
+                    } else if(activity instanceof  VideoPlayActivity){
+                        ((VideoPlayActivity) activity).hideCommentWindow();
+                    }
+                   // ((VideoPlayActivity) mContext).hideCommentWindow();
                 }
             }
         });

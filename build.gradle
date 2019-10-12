@@ -3,6 +3,10 @@ apply from: "config.gradle"
 buildscript {
     repositories {
         jcenter()
+        maven{
+            url 'file://E://imageViewExample/imageViewExample/repository/'
+        }
+     //   google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.2'
@@ -19,8 +23,13 @@ allprojects {
             url "https://dl.bintray.com/tencentqcloudterminal/maven"
         }
         maven { url "https://jitpack.io" }
+        maven{
+            url 'file://E://imageViewExample/imageViewExample/repository/'
+        }
     }
 }
+
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir

@@ -1,5 +1,6 @@
 package com.yunbao.phonelive.http;
 
+import android.media.Image;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -212,6 +213,14 @@ public class HttpUtil {
                 .params("pushid", ImPushUtil.getInstance().getPushID())
                 .execute(callback);
 
+    }
+    /**
+     * 游客登录
+     * */
+    public static void TouristLogin(String uuid, HttpCallback callback) {
+        HttpClient.getInstance().get("Login.TouristLogin", HttpConsts.TOURIST_LOGIN)
+                .params("uuid", uuid)
+                .execute(callback);
     }
 
     /**
@@ -1227,6 +1236,8 @@ public class HttpUtil {
                 .execute(callback);
     }
 
+
+
     /**
      * 获取直播间举报内容列表
      */
@@ -1247,19 +1258,47 @@ public class HttpUtil {
                 .params("uid", AppConfig.getInstance().getUid())
                 .params("token", AppConfig.getInstance().getToken())
                 .params("p", p)
+                .params("typ", 1)
                 .execute(callback);
     }
+
 
     /*
         获取首页横屏视频列表
     */
     public static void getHorizontalVideoList(int p, HttpCallback callback) {
-        HttpClient.getInstance().get("Video.GetVideoList", HttpConsts.GET_HOME_VIDEO_LIST)
+        HttpClient.getInstance().get("Video.GetVideoList", HttpConsts.GET_HOME_HORIZONTAL_LIST)
                 .params("uid", AppConfig.getInstance().getUid())
                 .params("token", AppConfig.getInstance().getToken())
                 .params("p", p)
+                .params("typ", 2)
                 .execute(callback);
     }
+
+    /**
+     * 获取套图列表
+     */
+
+    public static void getHomeImageList(int p, HttpCallback callback) {
+        HttpClient.getInstance().get("Video.GetVideoList", HttpConsts.GET_HOME_IMAGE_LIST)
+                .params("uid", AppConfig.getInstance().getUid())
+                //    .params("token", AppConfig.getInstance().getToken())
+                .params("p", p)
+                .params("typ", 3)
+                .execute(callback);
+    }
+
+    /**
+     * 获取套图详情
+     */
+    public static void getImageDetail(String albumid, HttpCallback callback) {
+        HttpClient.getInstance().get("Video.GetAlbum", HttpConsts.GET_HOME_IMAGE_DETAILS)
+                .params("uid", AppConfig.getInstance().getUid())
+                //    .params("token", AppConfig.getInstance().getToken())
+                .params("albumid", albumid)
+                .execute(callback);
+    }
+
 
 
     /**

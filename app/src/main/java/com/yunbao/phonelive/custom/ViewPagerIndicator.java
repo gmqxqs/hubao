@@ -87,11 +87,13 @@ public class ViewPagerIndicator extends LinearLayout implements ViewPager.OnPage
         mContext = context;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ViewPagerIndicator);
         mTextSize = a.getDimension(R.styleable.ViewPagerIndicator_title_textSize, 0);
-        mIndicatorWidth = (int) a.getDimension(R.styleable.ViewPagerIndicator_indicatorWidth, 0);
+        mIndicatorWidth = 8;// (int) a.getDimension(R.styleable.ViewPagerIndicator_indicatorWidth, 0);
         mIndicatorHeight = (int) a.getDimension(R.styleable.ViewPagerIndicator_indicatorHeight, 0);
         mIndicatorBottomMargin = (int) a.getDimension(R.styleable.ViewPagerIndicator_indicatorBottomMargin, dp2px(2));
-        mNormalColor = a.getColor(R.styleable.ViewPagerIndicator_normalColor, Color.BLACK);
+        //mNormalColor = a.getColor(R.styleable.ViewPagerIndicator_normalColor, Color.BLACK);
+        mNormalColor = 0xFF474747;
         mLightColor = a.getColor(R.styleable.ViewPagerIndicator_lightColor, Color.BLACK);
+
         mIndicatorColor = a.getColor(R.styleable.ViewPagerIndicator_indicatorColor, Color.BLACK);
         mNormalColorArgb = getColorArgb(mNormalColor);
         mLightColorArgb = getColorArgb(mLightColor);
@@ -115,7 +117,7 @@ public class ViewPagerIndicator extends LinearLayout implements ViewPager.OnPage
 
     private void initPaint() {
         mPaint = new Paint();
-        mPaint.setColor(mIndicatorColor);
+        mPaint.setColor(0xFFFF17A5);
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
         mPaint.setStrokeWidth(mIndicatorHeight);
@@ -257,6 +259,14 @@ public class ViewPagerIndicator extends LinearLayout implements ViewPager.OnPage
         }
     }
 
+    private void textChangeColor(int position) {
+
+        TextView textView = (TextView) getChildAt(position);
+        if (textView != null) {
+            textView.setTextColor(0xFFFF17A5);
+        }
+    }
+
 
     /**
      * 文字缩放
@@ -282,7 +292,8 @@ public class ViewPagerIndicator extends LinearLayout implements ViewPager.OnPage
         mTotalScrollX = (int) ((position + positionOffset) * mScrollX);
         invalidate();
         if (mChangeColor) {
-            changeColor(position, positionOffset);
+           // changeColor(position, positionOffset);
+            changeColor(position,positionOffset);
         }
         if (mChangeSize) {
             changeScale(position, positionOffset);
@@ -293,9 +304,12 @@ public class ViewPagerIndicator extends LinearLayout implements ViewPager.OnPage
      * 文字颜色变化
      */
     private void changeColor(int position, float positionOffset) {
-        textChangeColor(position, 1 - positionOffset);
+       // textChangeColor(position, 1 - positionOffset);
+        textChangeColor(position);
         textChangeColor(position + 1, positionOffset);
     }
+
+
 
     /**
      * 文字大小变化

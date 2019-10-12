@@ -1,18 +1,25 @@
 package com.yunbao.phonelive.views;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.tencent.rtmp.ITXVodPlayListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXVodPlayer;
 import com.yunbao.phonelive.R;
+import com.yunbao.phonelive.activity.HorizontalVideoPlayActivity;
 import com.yunbao.phonelive.activity.VideoPlayActivity;
 import com.yunbao.phonelive.adapter.VideoScrollAdapter;
 import com.yunbao.phonelive.bean.VideoBean;
@@ -20,6 +27,8 @@ import com.yunbao.phonelive.custom.VideoLoadingBar;
 import com.yunbao.phonelive.event.FollowEvent;
 import com.yunbao.phonelive.event.VideoCommentEvent;
 import com.yunbao.phonelive.event.VideoLikeEvent;
+import com.yunbao.phonelive.event.VideoPauseEvent;
+import com.yunbao.phonelive.event.VideoPlayEvent;
 import com.yunbao.phonelive.event.VideoScrollPageEvent;
 import com.yunbao.phonelive.event.VideoShareEvent;
 import com.yunbao.phonelive.http.HttpCallback;
@@ -27,6 +36,7 @@ import com.yunbao.phonelive.http.HttpConsts;
 import com.yunbao.phonelive.http.HttpUtil;
 import com.yunbao.phonelive.interfaces.LifeCycleAdapter;
 import com.yunbao.phonelive.interfaces.VideoScrollDataHelper;
+import com.yunbao.phonelive.utils.CommUtil;
 import com.yunbao.phonelive.utils.L;
 import com.yunbao.phonelive.utils.ToastUtil;
 import com.yunbao.phonelive.utils.VideoStorge;
@@ -62,6 +72,11 @@ public class VideoScrollViewHolder extends AbsViewHolder implements
     private VideoScrollDataHelper mVideoDataHelper;
     private VideoBean mVideoBean;
     private boolean mPaused;//生命周期暂停
+    private LinearLayout inputLinearLayout;
+    private com.yunbao.phonelive.custom.VideoLoadingBar  videoLoadingBar;
+    public static final int MSG_ONE = 1;
+
+
 
     public VideoScrollViewHolder(Context context, ViewGroup parentView, int position, String videoKey, int page) {
         super(context, parentView, position, videoKey, page);
@@ -86,6 +101,8 @@ public class VideoScrollViewHolder extends AbsViewHolder implements
         if (list == null || list.size() == 0) {
             return;
         }
+
+
         mVideoPlayViewHolder = new VideoPlayViewHolder(mContext, null,mPosition,mVideoKey,mPage);
         mVideoPlayViewHolder.setActionListener(this);
         mPlayView = mVideoPlayViewHolder.getContentView();
@@ -95,11 +112,14 @@ public class VideoScrollViewHolder extends AbsViewHolder implements
         mRefreshLayout.setEnabled(false);//产品不让使用刷新
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
         mVideoScrollAdapter = new VideoScrollAdapter(mContext, list, mPosition);
         mVideoScrollAdapter.setActionListener(this);
         mRecyclerView.setAdapter(mVideoScrollAdapter);
         mVideoLoadingBar = (VideoLoadingBar) findViewById(R.id.video_loading);
+        inputLinearLayout = (LinearLayout) findViewById(R.id.inputLinearLayout);
+        videoLoadingBar = (VideoLoadingBar) findViewById(R.id.video_loading);
         findViewById(R.id.input_tip).setOnClickListener(this);
         findViewById(R.id.btn_face).setOnClickListener(this);
         EventBus.getDefault().register(this);
@@ -161,6 +181,7 @@ public class VideoScrollViewHolder extends AbsViewHolder implements
             }
         };
         mVideoDataHelper = VideoStorge.getInstance().getDataHelper(mVideoKey);
+
     }
 
 
@@ -280,9 +301,80 @@ public class VideoScrollViewHolder extends AbsViewHolder implements
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onVideoLikeEvent(VideoLikeEvent e) {
+        L.e("VideoLikeEvent",e.toString());
         if (mVideoScrollAdapter != null) {
             mVideoScrollAdapter.onLikeChanged(!mPaused, e.getVideoId(), e.getIsLike(), e.getLikeNum());
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onVideoPuaseEvent(VideoPauseEvent e){
+        L.e("onVideoPuaseEvent",e.toString());
+        changUiToPause();
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onVideoPlayEvent(VideoPlayEvent e){
+        L.e("onVideoPlayEvent",e.toString());
+        changUiToPlaying();
+    }
+
+    public void changUiToPlaying(){
+        Activity activity = CommUtil.scanForActivity(mContext);
+        if(activity instanceof  HorizontalVideoPlayActivity){
+
+            mVideoPlayWrapViewHolder.getBtnLike().setVisibility(View.GONE);
+            mVideoPlayWrapViewHolder.getTitle().setVisibility(View.GONE);
+            mVideoPlayWrapViewHolder.getShareNum().setVisibility(View.GONE);
+            mVideoPlayWrapViewHolder.getName().setVisibility(View.GONE);
+            mVideoPlayWrapViewHolder.getBtnComment().setVisibility(View.GONE);
+            mVideoPlayWrapViewHolder.getBtnShare().setVisibility(View.GONE);
+            mVideoPlayWrapViewHolder.getBtnFollow().setVisibility(View.GONE);
+            mVideoPlayWrapViewHolder.getAvatar().setVisibility(View.GONE);
+            mVideoPlayWrapViewHolder.getLikeNum().setVisibility(View.GONE);
+            mVideoPlayWrapViewHolder.getCommentNum().setVisibility(View.GONE);
+            mVideoPlayWrapViewHolder.getShareNum().setVisibility(View.GONE);
+            inputLinearLayout.setVisibility(View.GONE);
+            videoLoadingBar.setVisibility(View.GONE);
+        }
+    }
+
+    public void changUiToPause(){
+        boolean mPause = mVideoPlayViewHolder.getPaused();
+        Activity activity = CommUtil.scanForActivity(mContext);
+        if(activity instanceof  HorizontalVideoPlayActivity){
+            if(mPause){
+                mVideoPlayWrapViewHolder.getBtnLike().setVisibility(View.VISIBLE);
+                mVideoPlayWrapViewHolder.getBtnLike().setVisibility(View.VISIBLE);
+                mVideoPlayWrapViewHolder.getTitle().setVisibility(View.VISIBLE);
+                mVideoPlayWrapViewHolder.getShareNum().setVisibility(View.VISIBLE);
+                mVideoPlayWrapViewHolder.getName().setVisibility(View.VISIBLE);
+                mVideoPlayWrapViewHolder.getBtnComment().setVisibility(View.VISIBLE);
+                mVideoPlayWrapViewHolder.getBtnShare().setVisibility(View.VISIBLE);
+                mVideoPlayWrapViewHolder.getBtnFollow().setVisibility(View.VISIBLE);
+                mVideoPlayWrapViewHolder.getAvatar().setVisibility(View.VISIBLE);
+                mVideoPlayWrapViewHolder.getLikeNum().setVisibility(View.VISIBLE);
+                mVideoPlayWrapViewHolder.getCommentNum().setVisibility(View.VISIBLE);
+                mVideoPlayWrapViewHolder.getShareNum().setVisibility(View.VISIBLE);
+                inputLinearLayout.setVisibility(View.VISIBLE);
+                videoLoadingBar.setVisibility(View.VISIBLE);
+            } else{
+                mVideoPlayWrapViewHolder.getBtnLike().setVisibility(View.GONE);
+                mVideoPlayWrapViewHolder.getTitle().setVisibility(View.GONE);
+                mVideoPlayWrapViewHolder.getShareNum().setVisibility(View.GONE);
+                mVideoPlayWrapViewHolder.getName().setVisibility(View.GONE);
+                mVideoPlayWrapViewHolder.getBtnComment().setVisibility(View.GONE);
+                mVideoPlayWrapViewHolder.getBtnShare().setVisibility(View.GONE);
+                mVideoPlayWrapViewHolder.getBtnFollow().setVisibility(View.GONE);
+                mVideoPlayWrapViewHolder.getAvatar().setVisibility(View.GONE);
+                mVideoPlayWrapViewHolder.getLikeNum().setVisibility(View.GONE);
+                mVideoPlayWrapViewHolder.getCommentNum().setVisibility(View.GONE);
+                mVideoPlayWrapViewHolder.getShareNum().setVisibility(View.GONE);
+                inputLinearLayout.setVisibility(View.GONE);
+                videoLoadingBar.setVisibility(View.GONE);
+            }
+        }
+
+
     }
 
     /**
@@ -331,7 +423,12 @@ public class VideoScrollViewHolder extends AbsViewHolder implements
      */
     private void openCommentInputWindow(boolean openFace) {
         if (mVideoBean != null) {
-            ((VideoPlayActivity) mContext).openCommentInputWindow(openFace, mVideoBean, null);
+            Activity activity = CommUtil.scanForActivity(mContext);
+            if(activity instanceof HorizontalVideoPlayActivity){
+                ((HorizontalVideoPlayActivity) activity).openCommentInputWindow(openFace, mVideoBean, null);
+            } else if(activity instanceof VideoPlayActivity){
+                ((VideoPlayActivity) activity).openCommentInputWindow(openFace, mVideoBean, null);
+            }
         }
     }
 
@@ -343,6 +440,8 @@ public class VideoScrollViewHolder extends AbsViewHolder implements
             mVideoScrollAdapter.onVideoBeanChanged(videoId);
         }
     }
+
+
 
 
 }

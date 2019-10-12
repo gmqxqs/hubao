@@ -309,7 +309,7 @@ public class LiveUserHomeViewHolder extends AbsLivePageViewHolder implements App
         if (!mSelf) {
             ImpressBean lastBean = new ImpressBean();
             lastBean.setName("+ " + WordUtil.getString(R.string.impress_add));
-            lastBean.setColor("#ffdd00");
+            lastBean.setColor("#FFFF17A5");
             list.add(lastBean);
         } else {
             if (list.size() == 0) {

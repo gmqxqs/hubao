@@ -3,6 +3,8 @@ package com.yunbao.phonelive.views;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import com.alibaba.fastjson.JSON;
@@ -22,6 +24,7 @@ import com.yunbao.phonelive.http.HttpUtil;
 import com.yunbao.phonelive.interfaces.LifeCycleAdapter;
 import com.yunbao.phonelive.interfaces.OnItemClickListener;
 import com.yunbao.phonelive.interfaces.VideoScrollDataHelper;
+import com.yunbao.phonelive.utils.PhotoStorge;
 import com.yunbao.phonelive.utils.VideoStorge;
 
 import org.greenrobot.eventbus.EventBus;
@@ -52,8 +55,10 @@ public class MainHomeVideoViewHolder extends AbsMainChildTopViewHolder implement
         super.init();
         mRefreshView = (RefreshView) findViewById(R.id.refreshView);
         mRefreshView.setNoDataLayoutId(R.layout.view_no_data_live_video);
+
         mRefreshView.setLayoutManager(new GridLayoutManager(mContext, 2, GridLayoutManager.VERTICAL, false));
     //    mRefreshView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+  //      mRefreshView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         ItemDecoration decoration = new ItemDecoration(mContext, 0x00000000, 5, 5);
         decoration.setOnlySetItemOffsetsButNoDraw(true);
         mRefreshView.setItemDecoration(decoration);
@@ -80,6 +85,7 @@ public class MainHomeVideoViewHolder extends AbsMainChildTopViewHolder implement
             @Override
             public void onRefresh(List<VideoBean> list) {
                 VideoStorge.getInstance().put(Constants.VIDEO_HOME, list);
+                Log.e("list竖屏",list.toString());
             }
 
             @Override
@@ -150,7 +156,8 @@ public class MainHomeVideoViewHolder extends AbsMainChildTopViewHolder implement
         if (mRefreshView != null) {
             page = mRefreshView.getPage();
         }
-        VideoStorge.getInstance().putDataHelper(Constants.VIDEO_HOME, mVideoScrollDataHelper);
+     //   VideoStorge.getInstance().putDataHelper(Constants.VIDEO_HOME, mVideoScrollDataHelper);
+        Log.e("VideoStorge", VideoStorge.getInstance().getDataHelper(Constants.VIDEO_HOME)+"");
         VideoPlayActivity.forward(mContext, position, Constants.VIDEO_HOME, page);
     }
 }

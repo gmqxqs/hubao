@@ -21,10 +21,17 @@ import com.yunbao.phonelive.R;
 import com.yunbao.phonelive.adapter.VideoScrollAdapter;
 import com.yunbao.phonelive.bean.VideoBean;
 import com.yunbao.phonelive.custom.VideoLoadingBar;
+import com.yunbao.phonelive.event.VideoLikeEvent;
+import com.yunbao.phonelive.event.VideoPauseEvent;
+import com.yunbao.phonelive.event.VideoPlayEvent;
 import com.yunbao.phonelive.http.HttpConsts;
 import com.yunbao.phonelive.http.HttpUtil;
 import com.yunbao.phonelive.utils.L;
 import com.yunbao.phonelive.utils.VideoStorge;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -40,6 +47,9 @@ public class VideoPlayViewHolder extends AbsViewHolder implements ITXVodPlayList
     private View mVideoCover;
     private TXVodPlayer mPlayer;
     private boolean mPaused;//生命周期暂停
+    public boolean getPaused(){
+        return mClickPaused;
+    }
     private boolean mClickPaused;//点击暂停
     private ActionListener mActionListener;
     private View mPlayBtn;
@@ -116,11 +126,13 @@ public class VideoPlayViewHolder extends AbsViewHolder implements ITXVodPlayList
                 if (mActionListener != null) {
                     mActionListener.onPlayBegin();
                 }
+                L.e("加载完成","PLAY_EVT_PLAY_BEGIN");
                 break;
             case TXLiveConstants.PLAY_EVT_PLAY_LOADING: //开始加载的回调
                 if (mActionListener != null) {
                     mActionListener.onPlayLoading();
                 }
+                L.e("开始加载","PLAY_EVT_PLAY_LOADING");
                 break;
             case TXLiveConstants.PLAY_EVT_PLAY_END://获取到视频播放完毕的回调
                 replay();
@@ -135,9 +147,12 @@ public class VideoPlayViewHolder extends AbsViewHolder implements ITXVodPlayList
                 if (mActionListener != null) {
                     mActionListener.onFirstFrame();
                 }
+                L.e("首帧","PLAY_EVT_RCV_FIRST_I_FRAME");
+
                 break;
             case TXLiveConstants.PLAY_EVT_CHANGE_RESOLUTION://获取到视频宽高回调
                 onVideoSizeChanged(bundle.getInt("EVT_PARAM1", 0), bundle.getInt("EVT_PARAM2", 0));
+                L.e("宽高","PLAY_EVT_RCV_FIRST_I_FRAME");
                 break;
         }
     }
@@ -146,6 +161,7 @@ public class VideoPlayViewHolder extends AbsViewHolder implements ITXVodPlayList
     public void onNetStatus(TXVodPlayer txVodPlayer, Bundle bundle) {
 
     }
+
 
     /**
      * 获取到视频宽高回调
@@ -186,6 +202,7 @@ public class VideoPlayViewHolder extends AbsViewHolder implements ITXVodPlayList
             return;
         }
         String url = videoBean.getHref();
+
         if (TextUtils.isEmpty(url)) {
             return;
         }
@@ -193,6 +210,7 @@ public class VideoPlayViewHolder extends AbsViewHolder implements ITXVodPlayList
             mPlayer.startPlay(url);
         }
         HttpUtil.videoWatchStart(videoBean.getUid(), videoBean.getId());
+        EventBus.getDefault().post(new VideoPlayEvent(mPaused));
     }
 
     /**
@@ -225,6 +243,7 @@ public class VideoPlayViewHolder extends AbsViewHolder implements ITXVodPlayList
         mActionListener = null;
     }
 
+
     /**
      * 生命周期暂停
      */
@@ -234,6 +253,7 @@ public class VideoPlayViewHolder extends AbsViewHolder implements ITXVodPlayList
             mPlayer.pause();
         }
     }
+
 
     /**
      * 生命周期恢复
@@ -289,6 +309,7 @@ public class VideoPlayViewHolder extends AbsViewHolder implements ITXVodPlayList
         } else {
             hidePlayBtn();
         }
+        EventBus.getDefault().post(new VideoPauseEvent(mPaused));
     }
 
     @Override

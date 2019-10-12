@@ -154,10 +154,15 @@ public class Constants {
     public static final int JPUSH_TYPE_MESSAGE = 2;//消息
 
     public static final String VIDEO_HOME = "videoHome";
+    public static final String VIDEO_HORIZONTAL = "videoHorizontal";
+    public static final String VIDEO_IMAGE = "image";
+    public static final String VIDEO_IMAGE_GROUP = "imageGroup";
+    public static final String VIDEO_IMAGE_DETAIL = "detail";
     public static final String VIDEO_USER = "videoUser_";
     public static final String VIDEO_KEY = "videoKey";
     public static final String VIDEO_POSITION = "videoPosition";
     public static final String VIDEO_PAGE = "videoPage";
+    public static final String VIDEO_TOTAL_PAGE = "videoTotalPage";
     public static final String VIDEO_BEAN = "videoBean";
     public static final String VIDEO_ID = "videoId";
     public static final String VIDEO_COMMENT_BEAN = "videoCommnetBean";

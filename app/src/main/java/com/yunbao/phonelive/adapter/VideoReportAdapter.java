@@ -28,7 +28,6 @@ public class VideoReportAdapter extends RecyclerView.Adapter {
     private static final int FOOT = -2;
     private static final int NORMAL = 0;
     private static final int NORMAL_LAST = 1;
-
     private List<VideoReportBean> mList;
     private LayoutInflater mInflater;
     private Drawable mCheckedDrawable;

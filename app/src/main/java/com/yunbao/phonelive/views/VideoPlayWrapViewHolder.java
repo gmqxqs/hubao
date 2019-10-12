@@ -1,11 +1,13 @@
 package com.yunbao.phonelive.views;
 
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -20,6 +22,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.yunbao.phonelive.AppConfig;
 import com.yunbao.phonelive.Constants;
 import com.yunbao.phonelive.R;
+import com.yunbao.phonelive.activity.HorizontalVideoPlayActivity;
 import com.yunbao.phonelive.activity.UserHomeActivity;
 import com.yunbao.phonelive.activity.VideoPlayActivity;
 import com.yunbao.phonelive.bean.UserBean;
@@ -30,6 +33,7 @@ import com.yunbao.phonelive.glide.ImgLoader;
 import com.yunbao.phonelive.http.HttpCallback;
 import com.yunbao.phonelive.http.HttpUtil;
 import com.yunbao.phonelive.interfaces.CommonCallback;
+import com.yunbao.phonelive.utils.CommUtil;
 import com.yunbao.phonelive.utils.L;
 import com.yunbao.phonelive.utils.ToastUtil;
 
@@ -45,13 +49,37 @@ public class VideoPlayWrapViewHolder extends AbsViewHolder implements View.OnCli
     private ViewGroup mVideoContainer;
     private ImageView mCover;
     private ImageView mAvatar;
+    public ImageView getAvatar(){
+        return  mAvatar;
+    }
     private TextView mName;
+    public  TextView getName(){
+        return  mName;
+    }
     private TextView mTitle;
+    public  TextView getTitle(){
+        return  mTitle;
+    }
     private ImageView mBtnLike;//点赞按钮
+    public  ImageView getBtnLike(){
+        return mBtnLike;
+    }
     private TextView mLikeNum;//点赞数
+    public  TextView getLikeNum(){
+        return mLikeNum;
+    }
     private TextView mCommentNum;//评论数
+    public  TextView getCommentNum(){
+        return  mCommentNum;
+    }
     private TextView mShareNum;//分享数
+    public TextView getShareNum(){
+        return mShareNum;
+    }
     private ImageView mBtnFollow;//关注按钮
+    public  ImageView getBtnFollow(){
+        return mBtnFollow;
+    }
     private VideoBean mVideoBean;
     private Drawable mFollowDrawable;//已关注
     private Drawable mUnFollowDrawable;//未关注
@@ -61,6 +89,16 @@ public class VideoPlayWrapViewHolder extends AbsViewHolder implements View.OnCli
     private Drawable[] mLikeAnimDrawables;//点赞帧动画
     private int mLikeAnimIndex;
     private String mTag;
+    private ImageView btn_comment;
+    public ImageView getBtnComment(){
+        return  btn_comment;
+    }
+    private ImageView btn_share;
+    public ImageView getBtnShare(){
+        return  btn_share;
+    }
+
+
 
 
     public VideoPlayWrapViewHolder(Context context, ViewGroup parentView) {
@@ -90,6 +128,8 @@ public class VideoPlayWrapViewHolder extends AbsViewHolder implements View.OnCli
         mAvatar.setOnClickListener(this);
         mBtnFollow.setOnClickListener(this);
         mBtnLike.setOnClickListener(this);
+        btn_comment = (ImageView) findViewById(R.id.btn_comment);
+        btn_share = (ImageView) findViewById(R.id.btn_share);
         findViewById(R.id.btn_comment).setOnClickListener(this);
         findViewById(R.id.btn_share).setOnClickListener(this);
     }
@@ -161,13 +201,14 @@ public class VideoPlayWrapViewHolder extends AbsViewHolder implements View.OnCli
         UserBean u = mVideoBean.getUserBean();
         if (payload == null) {
             if (mCover != null) {
-                setCoverImage();
+               setCoverImage();
             }
             if (mTitle != null) {
                 mTitle.setText(bean.getTitle());
             }
             if (u != null) {
                 if (mAvatar != null) {
+
                     ImgLoader.displayAvatar(u.getAvatar(), mAvatar);
                 }
                 if (mName != null) {
@@ -213,6 +254,9 @@ public class VideoPlayWrapViewHolder extends AbsViewHolder implements View.OnCli
     }
 
     private void setCoverImage() {
+        Log.e("href1",mVideoBean.getHref());
+        Log.e("href2",mVideoBean.getHref().length()+"sss");
+        Log.e("Thumb",mVideoBean.getThumb());
         ImgLoader.displayDrawable(mVideoBean.getThumb(), new ImgLoader.DrawableCallback() {
             @Override
             public void callback(Drawable drawable) {
@@ -314,7 +358,7 @@ public class VideoPlayWrapViewHolder extends AbsViewHolder implements View.OnCli
                 clickLike();
                 break;
             case R.id.avatar:
-                clickAvatar();
+                //clickAvatar();
                 break;
         }
     }
@@ -405,7 +449,13 @@ public class VideoPlayWrapViewHolder extends AbsViewHolder implements View.OnCli
      * 点击评论按钮
      */
     private void clickComment() {
-        ((VideoPlayActivity) mContext).openCommentWindow(mVideoBean);
+        Activity activity = CommUtil.scanForActivity(mContext);
+        if(activity instanceof HorizontalVideoPlayActivity){
+            ((HorizontalVideoPlayActivity) activity).openCommentWindow(mVideoBean);
+        } else if(activity instanceof  VideoPlayActivity){
+            ((VideoPlayActivity) activity).openCommentWindow(mVideoBean);
+        }
+   //     ((VideoPlayActivity) mContext).openCommentWindow(mVideoBean);
     }
 
     /**
@@ -419,7 +469,15 @@ public class VideoPlayWrapViewHolder extends AbsViewHolder implements View.OnCli
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constants.VIDEO_BEAN, mVideoBean);
         fragment.setArguments(bundle);
-        fragment.show(((VideoPlayActivity) mContext).getSupportFragmentManager(), "VideoShareDialogFragment");
+        Activity activity = CommUtil.scanForActivity(mContext);
+        if(activity instanceof  HorizontalVideoPlayActivity){
+
+            fragment.show(((HorizontalVideoPlayActivity) activity).getSupportFragmentManager(),"VideoShareDialogFragment");
+        } else if(activity instanceof  VideoPlayActivity){
+            ((VideoPlayActivity) activity).getSupportFragmentManager();
+            fragment.show(((VideoPlayActivity) activity).getSupportFragmentManager(), "VideoShareDialogFragment");
+        }
+        //fragment.show(((VideoPlayActivity) mContext).getSupportFragmentManager(), "VideoShareDialogFragment");
     }
 
     public void release() {

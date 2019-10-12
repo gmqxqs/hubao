@@ -21,6 +21,7 @@ import com.yunbao.phonelive.http.HttpConsts;
 import com.yunbao.phonelive.http.HttpUtil;
 import com.yunbao.phonelive.interfaces.CommonCallback;
 import com.yunbao.phonelive.utils.DialogUitl;
+import com.yunbao.phonelive.utils.L;
 import com.yunbao.phonelive.utils.ToastUtil;
 import com.yunbao.phonelive.utils.ValidatePhoneUtil;
 import com.yunbao.phonelive.utils.WordUtil;
@@ -171,11 +172,13 @@ public class RegisterActivity extends AbsActivity {
     private HttpCallback mGetCodeCallback = new HttpCallback() {
         @Override
         public void onSuccess(int code, String msg, String[] info) {
+            L.e("msg",msg);
             if (code == 0) {
                 mBtnCode.setEnabled(false);
                 if (mHandler != null) {
                     mHandler.sendEmptyMessage(0);
                 }
+
                 if (!TextUtils.isEmpty(msg) && msg.contains("123456")) {
                     ToastUtil.show(msg);
                 }

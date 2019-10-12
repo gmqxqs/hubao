@@ -37,10 +37,19 @@ public class VideoBean implements Parcelable {
     private int attent;//是否关注过作者
     private int status;
     private int musicId;
+    private String num;
     private MusicBean musicInfo;
 
     public VideoBean() {
 
+    }
+
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
     }
 
     public String getId() {

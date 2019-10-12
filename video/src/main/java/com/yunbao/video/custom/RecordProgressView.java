@@ -60,8 +60,8 @@ public class RecordProgressView extends View {
         mSpacePaint.setAntiAlias(true);
 
         mBackgroundColor = 0x66000000;
-        mRecordColor = 0xffffdd00;
-        mPendingColor = 0xffffdd00;
+        mRecordColor = 0xFFFF17A5;
+        mPendingColor = 0xFFFF17A5;
         mSpaceColor = 0xffffffff;
 
         mRecordPaint.setColor(mRecordColor);

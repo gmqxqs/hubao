@@ -165,9 +165,9 @@ public class LoginActivity extends AbsActivity implements OnItemClickListener<Mo
         }
         mLoginType = "phone";
         HttpUtil.login(phoneNum, pwd, new HttpCallback() {
-            @Override
-            public void onSuccess(int code, String msg, String[] info) {
-                onLoginSuccess(code, msg, info);
+                    @Override
+                    public void onSuccess(int code, String msg, String[] info) {
+                        onLoginSuccess(code, msg, info);
             }
         });
     }

@@ -43,10 +43,11 @@ public class LoginInvalidActivity extends AbsActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         EventBus.getDefault().post(new LoginInvalidEvent());
-        AppConfig.getInstance().clearLoginInfo();
+     //   AppConfig.getInstance().clearLoginInfo();
         //友盟统计登出
         MobclickAgent.onProfileSignOff();
-        LoginActivity.forward();
+     //   LoginActivity.forward();
+        MainActivity.forward(mContext);
         finish();
     }
 

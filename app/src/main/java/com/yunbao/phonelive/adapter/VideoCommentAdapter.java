@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -370,7 +371,15 @@ public class VideoCommentAdapter extends RefreshAdapter<VideoCommentBean> {
 
                 UserBean u = bean.getUserBean();
                 if (u != null) {
-                    ImgLoader.display(u.getAvatar(), mAvatar);
+                    Log.e("ugetAvatar",u.getAvatar()+"kkk");
+                    if(u.getAvatar().equals("/default.jpg")){
+                        ImgLoader.displayWithError("",mAvatar, R.mipmap.icon_avatar_placeholder);
+                       // ImgLoader.display(u.getAvatar(), mAvatar);
+                    } else{
+                        ImgLoader.displayAvatar(u.getAvatar(),mAvatar);
+                       // ImgLoader.displayWithError("",mAvatar, R.mipmap.icon_avatar_placeholder);
+                    }
+
                     mName.setText(u.getUserNiceName());
                 }
                 mContent.setText(TextRender.renderVideoComment(bean.getContent(), "  " + bean.getDatetime()));

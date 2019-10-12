@@ -16,6 +16,9 @@ import com.yunbao.phonelive.interfaces.MainAppBarLayoutListener;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+
 /**
  * Created by cxf on 2018/10/26.
  * MainActivity 中的首页，附近 的父页面 的基类
@@ -39,11 +42,10 @@ public abstract class AbsMainParentViewHolder extends AbsMainViewHolder {
     public void init() {
         mTopContainer = (ViewGroup) findViewById(R.id.top_container);
         mViewPager = (MyViewPager) findViewById(R.id.viewPager);
-        mViewPager.setOffscreenPageLimit(4);
+        mViewPager.setOffscreenPageLimit(3);
         mTopView = LayoutInflater.from(mContext).inflate(R.layout.view_main_home_top, null, false);
         mRedPoint = (TextView) mTopView.findViewById(R.id.red_point);
         mIndicator = (ViewPagerIndicator) mTopView.findViewById(R.id.indicator);
-        
         mIndicator.setListener(new ViewPagerIndicator.OnPageChangeListener() {
             @Override
             public void onTabClick(int position) {

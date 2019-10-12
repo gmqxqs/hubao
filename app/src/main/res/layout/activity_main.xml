@@ -14,12 +14,12 @@
         android:layout_height="match_parent"
         app:canScroll="false"/>
 
-    <FrameLayout
+    <!--<FrameLayout
         android:id="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/white"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true">-->
       <!--  <com.yunbao.phonelive.custom.TabButtonGroup
             android:id="@+id/tab_group"
             android:layout_width="match_parent"
@@ -88,7 +88,7 @@
             android:onClick="mainClick"
             android:src="@mipmap/icon_main_start"
             />-->
-    </FrameLayout>
+   <!-- </FrameLayout>-->
 
 
 </RelativeLayout>

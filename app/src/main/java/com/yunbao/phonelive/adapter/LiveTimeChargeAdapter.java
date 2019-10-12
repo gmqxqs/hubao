@@ -110,7 +110,7 @@ public class LiveTimeChargeAdapter extends RecyclerView.Adapter<LiveTimeChargeAd
             itemView.setTag(position);
             mTextView.setText(bean.getCoin() + "/" + mCoinName);
             if (bean.isChecked()) {
-                mTextView.setTextColor(0xffffdd00);
+                mTextView.setTextColor(0xFFFF17A5);
             } else {
                 mTextView.setTextColor(0xff323232);
             }

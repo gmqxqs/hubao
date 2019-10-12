@@ -1,5 +1,6 @@
 package com.yunbao.phonelive.dialog;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.WindowManager;
 import com.yunbao.phonelive.AppConfig;
 import com.yunbao.phonelive.Constants;
 import com.yunbao.phonelive.R;
+import com.yunbao.phonelive.activity.HorizontalVideoPlayActivity;
 import com.yunbao.phonelive.activity.VideoPlayActivity;
 import com.yunbao.phonelive.activity.VideoReportActivity;
 import com.yunbao.phonelive.adapter.VideoShareAdapter;
@@ -18,6 +20,7 @@ import com.yunbao.phonelive.bean.ConfigBean;
 import com.yunbao.phonelive.bean.VideoBean;
 import com.yunbao.phonelive.interfaces.OnItemClickListener;
 import com.yunbao.phonelive.mob.MobBean;
+import com.yunbao.phonelive.utils.CommUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,21 +122,42 @@ public class VideoShareDialogFragment extends AbsDialogFragment implements OnIte
             return;
         }
         dismiss();
+        Activity activity = CommUtil.scanForActivity(mContext);
         switch (bean.getType()) {
             case Constants.LINK://复制链接
-                ((VideoPlayActivity) mContext).copyLink(mVideoBean);
+                if(activity instanceof HorizontalVideoPlayActivity){
+                    ((HorizontalVideoPlayActivity) activity).copyLink(mVideoBean);
+                } else if(activity instanceof  VideoPlayActivity){
+                    ((VideoPlayActivity) activity).copyLink(mVideoBean);
+                }
+           //     ((VideoPlayActivity) mContext).copyLink(mVideoBean);
                 break;
             case Constants.REPORT://举报
                 VideoReportActivity.forward(mContext, mVideoBean.getId());
                 break;
             case Constants.SAVE://保存
-                ((VideoPlayActivity) mContext).downloadVideo(mVideoBean);
+                if(activity instanceof HorizontalVideoPlayActivity){
+                    ((HorizontalVideoPlayActivity) activity).downloadVideo(mVideoBean);
+                } else if(activity instanceof  VideoPlayActivity){
+                    ((VideoPlayActivity) activity).downloadVideo(mVideoBean);
+                }
+              //  ((VideoPlayActivity) mContext).downloadVideo(mVideoBean);
                 break;
             case Constants.DELETE://删除
-                ((VideoPlayActivity) mContext).deleteVideo(mVideoBean);
+                if(activity instanceof HorizontalVideoPlayActivity){
+                    ((HorizontalVideoPlayActivity) activity).deleteVideo(mVideoBean);
+                } else if(activity instanceof  VideoPlayActivity){
+                    ((VideoPlayActivity) activity).deleteVideo(mVideoBean);
+                }
+               // ((VideoPlayActivity) mContext).deleteVideo(mVideoBean);
                 break;
             default:
-                ((VideoPlayActivity) mContext).shareVideoPage(bean.getType(), mVideoBean);
+                if(activity instanceof HorizontalVideoPlayActivity){
+                    ((HorizontalVideoPlayActivity) activity).shareVideoPage(bean.getType(), mVideoBean);
+                } else if(activity instanceof  VideoPlayActivity){
+                    ((VideoPlayActivity) activity).shareVideoPage(bean.getType(), mVideoBean);
+                }
+               // ((VideoPlayActivity) mContext).shareVideoPage(bean.getType(), mVideoBean);
                 break;
         }
     }

@@ -80,7 +80,7 @@ public class BonusViewHolder extends AbsViewHolder implements View.OnClickListen
     public void setData(List<BonusBean> list, int day, String continueDay) {
         mList = list;
         mDay = day;
-        String s = WordUtil.getString(R.string.bonus_sign_1) + "<font color='#ffdd00'>" + continueDay + "</font>" + WordUtil.getString(R.string.bonus_day);
+        String s = WordUtil.getString(R.string.bonus_sign_1) + "<font color='#FFFF17A5'>" + continueDay + "</font>" + WordUtil.getString(R.string.bonus_day);
         mDayView.setText(Html.fromHtml(s));
         for (int i = 0, length = mItemViews.length; i < length; i++) {
             if (i <= mDay - 1) {

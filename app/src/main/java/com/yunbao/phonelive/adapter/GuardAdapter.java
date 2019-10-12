@@ -95,7 +95,7 @@ public class GuardAdapter extends RefreshAdapter<GuardUserBean> {
             if (levelBean != null) {
                 ImgLoader.display(levelBean.getThumb(), mLevel);
             }
-            mVotes.setText(Html.fromHtml(mWeekContributeString + "  <font color='#ffdd00'>" + bean.getContribute() + "</font>  " + mVotesName));
+            mVotes.setText(Html.fromHtml(mWeekContributeString + "  <font color='#FFFF17A5'>" + bean.getContribute() + "</font>  " + mVotesName));
         }
     }
 

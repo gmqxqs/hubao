@@ -24,6 +24,7 @@ import cn.tillusory.sdk.TiSDK;
 public class AppContext extends MultiDexApplication {
 
     public static AppContext sInstance;
+    private static Context context;
     public static boolean sDeBug;
     private int mCount;
     private boolean mFront;//是否前台
@@ -52,8 +53,13 @@ public class AppContext extends MultiDexApplication {
         //初始化友盟统计
         UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, null);
         registerActivityLifecycleCallbacks();
+        context = getApplicationContext();
     }
-
+    /**
+     * 获取全局上下文*/
+    public static Context getContext() {
+        return context;
+    }
     /**
      * 初始化萌颜
      */

@@ -2,6 +2,7 @@ package com.yunbao.phonelive.bean;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -365,5 +366,43 @@ public class ConfigBean {
     @JSONField(name = "tximgfolder")
     public void setTxCosImagePath(String txCosImagePath) {
         this.txCosImagePath = txCosImagePath;
+    }
+
+    @Override
+    public String toString() {
+        return "ConfigBean{" +
+                "version='" + version + '\'' +
+                ", downloadApkUrl='" + downloadApkUrl + '\'' +
+                ", updateDes='" + updateDes + '\'' +
+                ", liveWxShareUrl='" + liveWxShareUrl + '\'' +
+                ", liveShareTitle='" + liveShareTitle + '\'' +
+                ", liveShareDes='" + liveShareDes + '\'' +
+                ", videoShareTitle='" + videoShareTitle + '\'' +
+                ", videoShareDes='" + videoShareDes + '\'' +
+                ", videoAuditSwitch=" + videoAuditSwitch +
+                ", videoCloudType=" + videoCloudType +
+                ", videoQiNiuHost='" + videoQiNiuHost + '\'' +
+                ", txCosAppId='" + txCosAppId + '\'' +
+                ", txCosRegion='" + txCosRegion + '\'' +
+                ", txCosBucketName='" + txCosBucketName + '\'' +
+                ", txCosVideoPath='" + txCosVideoPath + '\'' +
+                ", txCosImagePath='" + txCosImagePath + '\'' +
+                ", coinName='" + coinName + '\'' +
+                ", votesName='" + votesName + '\'' +
+                ", liveTimeCoin=" + Arrays.toString(liveTimeCoin) +
+                ", loginType=" + Arrays.toString(loginType) +
+                ", liveType=" + Arrays.toString(liveType) +
+                ", shareType=" + Arrays.toString(shareType) +
+                ", liveClass=" + liveClass +
+                ", maintainSwitch=" + maintainSwitch +
+                ", maintainTips='" + maintainTips + '\'' +
+                ", beautyKey='" + beautyKey + '\'' +
+                ", beautyMeiBai=" + beautyMeiBai +
+                ", beautyMoPi=" + beautyMoPi +
+                ", beautyBaoHe=" + beautyBaoHe +
+                ", beautyFenNen=" + beautyFenNen +
+                ", beautyBigEye=" + beautyBigEye +
+                ", beautyFace=" + beautyFace +
+                '}';
     }
 }
